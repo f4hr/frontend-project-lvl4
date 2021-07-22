@@ -10,8 +10,8 @@ import useAuth from '../../common/hooks/index.jsx';
 import routes from '../../routes';
 
 const errorMessages = {
-  network: () => 'Ошибка сети',
-  auth: () => 'Неверные имя пользователя или пароль',
+  network: () => 'Network error',
+  auth: () => 'Invalid username or password',
 };
 
 const LoginForm = () => {
@@ -49,10 +49,10 @@ const LoginForm = () => {
 
   const schema = Yup.object({
     username: Yup.string()
-      .min(1, 'Количество символов должно быть не меньше 1')
-      .required('Обязательное поле'),
+      .min(3, 'The number of characters must be at least 1')
+      .required('Required field'),
     password: Yup.string()
-      .required('Обязательное поле'),
+      .required('Required field'),
   });
 
   return (
@@ -71,8 +71,8 @@ const LoginForm = () => {
         errors,
       }) => (
         <Form noValidate onSubmit={handleSubmit}>
-          <Form.Group as={Col} md="4" controlId="username">
-            <Form.Label>Ваш ник</Form.Label>
+          <Form.Group controlId="username">
+            <Form.Label>Nickname</Form.Label>
             <Form.Control
               type="text"
               name="username"
@@ -84,8 +84,8 @@ const LoginForm = () => {
             />
             <Form.Control.Feedback type="invalid">{errors.username}</Form.Control.Feedback>
           </Form.Group>
-          <Form.Group as={Col} md="4" controlId="password">
-            <Form.Label>Пароль</Form.Label>
+          <Form.Group controlId="password">
+            <Form.Label>Password</Form.Label>
             <Form.Control
               type="password"
               name="password"
@@ -96,13 +96,15 @@ const LoginForm = () => {
             />
             <Form.Control.Feedback type="invalid">{(formState === 'failed') ? authMessage : errors.password}</Form.Control.Feedback>
           </Form.Group>
-          <Col md="4">
+          <Col className="px-0">
             <Button
               type="submit"
-              variant="outline-primary"
+              variant="primary"
+              size="lg"
+              block
               disabled={formState === 'processing'}
             >
-              Войти
+              Log In
             </Button>
           </Col>
         </Form>

@@ -13,17 +13,16 @@ const AuthButton = () => {
 
   return (
     auth.loggedIn
-      ? <Button onClick={auth.logOut} variant="primary">Выйти</Button>
-      : <Button as={Link} to="/login" variant="primary">Войти</Button>
+      ? <Button onClick={auth.logOut} variant="primary">Log Out</Button>
+      : <Button as={Link} to="/login" variant="primary">Log In</Button>
   );
 };
 
 const Navigation = () => (
-  <Navbar bg="light" expand="lg">
+  <Navbar bg="dark" variant="dark" expand="lg" sticky="top" className="shadow">
     <Container fluid>
       <Navbar.Brand as={Link} to="/">Simple Slack</Navbar.Brand>
       <Nav>
-        <Nav.Link as={Link} to="/">Главная</Nav.Link>
         <AuthButton />
       </Nav>
     </Container>

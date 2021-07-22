@@ -1,5 +1,6 @@
 // @ts-check
 
+import React from 'react';
 import ReactDOM from 'react-dom';
 import 'regenerator-runtime/runtime.js';
 import '../assets/application.scss';
@@ -9,7 +10,5 @@ if (process.env.NODE_ENV !== 'production') {
   localStorage.debug = 'chat:*';
 }
 
-ReactDOM.render(
-  App(),
-  document.getElementById('chat'),
-);
+const app = React.createElement(App);
+ReactDOM.render(app, document.getElementById('chat'));

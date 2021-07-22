@@ -1,6 +1,7 @@
 // @ts-check
 
 import React, { useState } from 'react';
+import { Provider } from 'react-redux';
 import {
   BrowserRouter as Router,
   Switch,
@@ -8,8 +9,11 @@ import {
   useLocation,
   Redirect,
 } from 'react-router-dom';
+import { Container } from 'react-bootstrap';
+import store from './store.js';
 import Navigation from '../common/Navigation.jsx';
 import Login from '../features/login/Login.jsx';
+import Chat from '../features/chat/Chat.jsx';
 import authContext from '../common/contexts/index.jsx';
 import useAuth from '../common/hooks/index.jsx';
 
@@ -43,10 +47,6 @@ const PrivateRoute = ({ children, path }) => {
   );
 };
 
-function Home() {
-  return <h2>Home</h2>;
-}
-
 function NoMatch() {
   const location = useLocation();
 
@@ -62,26 +62,28 @@ function NoMatch() {
 }
 
 const App = () => (
-  <AuthProvider>
-    <Router>
-      <div className="d-flex flex-column h-100">
-        <Navigation />
-        <div className="container-lg h-100 py-3">
-          <Switch>
-            <Route path="/login">
-              <Login />
-            </Route>
-            <PrivateRoute path="/">
-              <Home />
-            </PrivateRoute>
-            <Route path="*">
-              <NoMatch />
-            </Route>
-          </Switch>
+  <Provider store={store}>
+    <AuthProvider>
+      <Router>
+        <div className="d-flex flex-column h-100">
+          <Navigation />
+          <Container fluid className="h-100 px-0">
+            <Switch>
+              <Route path="/login">
+                <Login />
+              </Route>
+              <PrivateRoute path="/">
+                <Chat />
+              </PrivateRoute>
+              <Route path="*">
+                <NoMatch />
+              </Route>
+            </Switch>
+          </Container>
         </div>
-      </div>
-    </Router>
-  </AuthProvider>
+      </Router>
+    </AuthProvider>
+  </Provider>
 );
 
 export default App;
