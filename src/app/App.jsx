@@ -8,10 +8,10 @@ import {
   useLocation,
   Redirect,
 } from 'react-router-dom';
-import Navigation from './Navigation.jsx';
-import Login from './Login.jsx';
-import authContext from '../contexts/index.jsx';
-import useAuth from '../hooks/index.jsx';
+import Navigation from '../common/Navigation.jsx';
+import Login from '../features/login/Login.jsx';
+import authContext from '../common/contexts/index.jsx';
+import useAuth from '../common/hooks/index.jsx';
 
 const AuthProvider = ({ children }) => {
   const isTokenSet = localStorage.getItem('userId') !== null;

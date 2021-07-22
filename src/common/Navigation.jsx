@@ -6,7 +6,7 @@ import {
   Button,
 } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import useAuth from '../hooks/index.jsx';
+import useAuth from './hooks/index.jsx';
 
 const AuthButton = () => {
   const auth = useAuth();
