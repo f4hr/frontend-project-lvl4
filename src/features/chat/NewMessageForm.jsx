@@ -4,12 +4,8 @@ import React, { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { Formik } from 'formik';
 
-// const errorMessages = {
-//   network: () => 'Ошибка сети',
-// };
-
 const NewMessageForm = () => {
-  const [formState, setFormState] = useState('filling');
+  const [formState] = useState('filling');
 
   const handleMessageSend = (values) => {
     console.log(values);

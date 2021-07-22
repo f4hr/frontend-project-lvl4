@@ -32,12 +32,6 @@ export const fetchChat = createAsyncThunk('chat/fetchChat', async () => {
 export const chatSlice = createSlice({
   name: 'chat',
   initialState,
-  reducers: {
-    newMessage: (state, action) => {},
-    newChannel: (state, action) => {},
-    removeChannel: (state, action) => {},
-    renameChannel: (state, action) => {},
-  },
   extraReducers: {
     [fetchChat.pending]: (state) => {
       state.status = 'loading';
@@ -56,12 +50,5 @@ export const chatSlice = createSlice({
     },
   },
 });
-
-export const {
-  newMessage,
-  newChannel,
-  renameChannel,
-  removeChannel,
-} = chatSlice.actions;
 
 export default chatSlice.reducer;
