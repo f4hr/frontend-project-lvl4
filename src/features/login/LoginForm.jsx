@@ -1,6 +1,6 @@
 // @ts-check
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Form, Col, Button } from 'react-bootstrap';
 import { Formik } from 'formik';
@@ -18,28 +18,24 @@ const LoginForm = () => {
   const history = useHistory();
   const auth = useAuth();
   const inputRef = useRef();
-  const [formState, setFormState] = useState('filling');
-  const [authMessage, setAuthMessage] = useState('');
 
   useEffect(() => {
     inputRef.current.focus();
   }, []);
 
-  const handleLogin = async (values) => {
-    setFormState('processing');
-
+  const handleLogin = async (values, { setSubmitting, setFieldError }) => {
     try {
       const res = await axios.post(routes.loginPath(), values);
       localStorage.setItem('userId', JSON.stringify(res.data));
       auth.logIn();
-      setFormState('processed');
       history.replace({ pathname: '/' });
     } catch (err) {
       if (err.isAxiosError) {
-        setAuthMessage((err.response.status === 401)
+        const errorMsg = (err.response.status === 401)
           ? errorMessages.auth()
-          : errorMessages.network());
-        setFormState('failed');
+          : errorMessages.network();
+        setFieldError('password', errorMsg);
+        setSubmitting(false);
         inputRef.current.select();
         return;
       }
@@ -48,11 +44,8 @@ const LoginForm = () => {
   };
 
   const schema = Yup.object({
-    username: Yup.string()
-      .min(3, 'The number of characters must be at least 1')
-      .required('Required field'),
-    password: Yup.string()
-      .required('Required field'),
+    username: Yup.string().required('Required field'),
+    password: Yup.string().required('Required field'),
   });
 
   return (
@@ -67,6 +60,7 @@ const LoginForm = () => {
       {({
         handleSubmit,
         handleChange,
+        isSubmitting,
         values,
         errors,
       }) => (
@@ -79,8 +73,8 @@ const LoginForm = () => {
               value={values.username}
               ref={inputRef}
               onChange={handleChange}
-              isInvalid={!!errors.username || formState === 'failed'}
-              readOnly={formState === 'processing'}
+              isInvalid={!!errors.username}
+              readOnly={isSubmitting}
             />
             <Form.Control.Feedback type="invalid">{errors.username}</Form.Control.Feedback>
           </Form.Group>
@@ -91,10 +85,10 @@ const LoginForm = () => {
               name="password"
               value={values.password}
               onChange={handleChange}
-              isInvalid={!!errors.password || formState === 'failed'}
-              readOnly={formState === 'processing'}
+              isInvalid={!!errors.password}
+              readOnly={isSubmitting}
             />
-            <Form.Control.Feedback type="invalid">{(formState === 'failed') ? authMessage : errors.password}</Form.Control.Feedback>
+            <Form.Control.Feedback type="invalid">{errors.password}</Form.Control.Feedback>
           </Form.Group>
           <Col className="px-0">
             <Button
@@ -102,7 +96,7 @@ const LoginForm = () => {
               variant="primary"
               size="lg"
               block
-              disabled={formState === 'processing'}
+              disabled={isSubmitting}
             >
               Log In
             </Button>
