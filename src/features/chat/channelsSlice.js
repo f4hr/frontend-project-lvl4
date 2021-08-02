@@ -38,6 +38,10 @@ export const channelsSlice = createSlice({
     addChannel: (state, action) => {
       console.log(action.payload);
     },
+    setCurrentChannel: (state, action) => {
+      const channelId = parseInt(action.payload, 10);
+      state.currentChannelId = channelId;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -58,6 +62,6 @@ export const channelsSlice = createSlice({
   },
 });
 
-export const { addChannel } = channelsSlice.actions;
+export const { addChannel, setCurrentChannel } = channelsSlice.actions;
 
 export default channelsSlice.reducer;

@@ -18,7 +18,7 @@ const NewMessageForm = () => {
 
   useEffect(() => {
     inputRef.current.focus();
-  }, []);
+  }, [currentChannelId]);
 
   const handleMessageSend = (values, { resetForm, setSubmitting }) => {
     const body = values.message.trim();

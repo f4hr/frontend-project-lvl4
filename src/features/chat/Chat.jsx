@@ -8,10 +8,11 @@ import {
   Nav,
 } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
-import { setInitialState } from './channelsSlice.js';
+import { setInitialState, setCurrentChannel } from './channelsSlice.js';
 import NewMessageForm from './NewMessageForm.jsx';
 
 const Channels = () => {
+  const dispatch = useDispatch();
   const {
     byId,
     allIds,
@@ -27,11 +28,16 @@ const Channels = () => {
     return <div>Failed to load channels</div>;
   }
 
+  const handleSelect = (channelId, e) => {
+    e.preventDefault();
+    dispatch(setCurrentChannel(channelId));
+  };
+
   return (
     <Nav className="flex-column" variant="pills" activeKey={currentChannelId}>
       {allIds.map((id) => (
         <Nav.Item key={id}>
-          <Nav.Link eventKey={id} href={`#${id}`}>
+          <Nav.Link eventKey={id} href={`#${id}`} onSelect={handleSelect}>
             {byId[id].name}
           </Nav.Link>
         </Nav.Item>
@@ -52,13 +58,13 @@ const Messages = () => {
     return <div>Failed to load messages</div>;
   }
 
-  if (allIds.length === 0) {
-    return <div>No messages in this channel</div>;
-  }
-
   const filteredMessages = allIds
     .map((id) => byId[id])
     .filter(({ channelId }) => channelId === currentChannelId);
+
+  if (filteredMessages.length === 0) {
+    return <div>No messages in this channel</div>;
+  }
 
   return (
     <ul className="list-unstyled">
