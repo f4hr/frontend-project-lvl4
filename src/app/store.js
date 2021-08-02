@@ -1,12 +1,17 @@
 // @ts-check
 
 import { configureStore } from '@reduxjs/toolkit';
-import chatReducer from '../features/chat/chatSlice.js';
+import socketMiddleware from '../common/middlewares/socketMiddleware.js';
+import channelsReducer from '../features/chat/channelsSlice.js';
+import messagesReducer from '../features/chat/messagesSlice.js';
 
 const store = configureStore({
   reducer: {
-    chat: chatReducer,
+    channels: channelsReducer,
+    messages: messagesReducer,
   },
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware()
+    .concat(socketMiddleware()),
 });
 
 export default store;
