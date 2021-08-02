@@ -1,7 +1,6 @@
 // @ts-check
 
-import React, { useState } from 'react';
-import { Provider } from 'react-redux';
+import React, { useEffect, useState } from 'react';
 import {
   BrowserRouter as Router,
   Switch,
@@ -10,41 +9,64 @@ import {
   Redirect,
 } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
-import store from './store.js';
+import authContext from '../common/contexts/index.jsx';
+import useAuth from '../common/hooks/index.jsx';
 import Navigation from '../common/Navigation.jsx';
 import Login from '../features/login/Login.jsx';
 import Chat from '../features/chat/Chat.jsx';
-import authContext from '../common/contexts/index.jsx';
-import useAuth from '../common/hooks/index.jsx';
 
 const AuthProvider = ({ children }) => {
-  const isTokenSet = localStorage.getItem('userId') !== null;
-  const [loggedIn, setLoggedIn] = useState(isTokenSet);
+  const getInitialState = () => localStorage.getItem('userId') !== null;
+  const [loggedIn, setLoggedIn] = useState(getInitialState);
+  const [username, setUsername] = useState('unknown');
 
-  const logIn = () => setLoggedIn(true);
+  const logIn = () => {
+    setLoggedIn(true);
+  };
+
   const logOut = () => {
-    localStorage.removeItem('userId');
     setLoggedIn(false);
   };
 
+  useEffect(() => {
+    if (loggedIn) {
+      const user = JSON.parse(localStorage.getItem('userId'));
+      setUsername(user.username);
+    } else {
+      localStorage.removeItem('userId');
+      setUsername('unknown');
+    }
+  }, [loggedIn]);
+
   return (
-    <authContext.Provider value={{ loggedIn, logIn, logOut }}>
+    <authContext.Provider
+      value={{
+        username,
+        loggedIn,
+        logIn,
+        logOut,
+      }}
+    >
       {children}
     </authContext.Provider>
   );
 };
 
-const PrivateRoute = ({ children, path }) => {
+// TODO: something is not right
+const ChatRoute = () => {
   const auth = useAuth();
 
-  return (
-    <Route
-      path={path}
-      render={({ location }) => (auth.loggedIn
-        ? children
-        : <Redirect to={{ pathname: '/login', state: { from: location } }} />)}
-    />
-  );
+  const render = ({ location }) => {
+    if (!auth.loggedIn) {
+      return (
+        <Redirect to={{ pathname: '/login', state: { from: location } }} />
+      );
+    }
+
+    return <Chat />;
+  };
+
+  return <Route render={render} />;
 };
 
 function NoMatch() {
@@ -62,28 +84,26 @@ function NoMatch() {
 }
 
 const App = () => (
-  <Provider store={store}>
-    <AuthProvider>
-      <Router>
-        <div className="d-flex flex-column h-100">
-          <Navigation />
-          <Container fluid className="h-100 px-0">
-            <Switch>
-              <Route path="/login">
-                <Login />
-              </Route>
-              <PrivateRoute path="/">
-                <Chat />
-              </PrivateRoute>
-              <Route path="*">
-                <NoMatch />
-              </Route>
-            </Switch>
-          </Container>
-        </div>
-      </Router>
-    </AuthProvider>
-  </Provider>
+  <AuthProvider>
+    <Router>
+      <div className="d-flex flex-column h-100">
+        <Navigation />
+        <Container fluid className="h-100 px-0">
+          <Switch>
+            <Route path="/login">
+              <Login />
+            </Route>
+            <Route exact path="/">
+              <ChatRoute />
+            </Route>
+            <Route path="*">
+              <NoMatch />
+            </Route>
+          </Switch>
+        </Container>
+      </div>
+    </Router>
+  </AuthProvider>
 );
 
 export default App;
