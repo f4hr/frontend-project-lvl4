@@ -3,3 +3,8 @@
 .login {
     max-width: 300px;
 }
+
+.chat__messages-wrapper {
+    height: calc(100vh - 126px);
+    overflow-y: scroll;
+}
