@@ -6,10 +6,13 @@ import {
   Row,
   Col,
   Nav,
+  Button,
 } from 'react-bootstrap';
+import { GoPlus } from 'react-icons/go';
 import { useSelector, useDispatch } from 'react-redux';
 import { setInitialState, setCurrentChannel } from './channelsSlice.js';
 import NewMessageForm from './NewMessageForm.jsx';
+import { openModal, newChannelModal } from '../modals/modalsSlice.js';
 
 const Channels = () => {
   const dispatch = useDispatch();
@@ -85,11 +88,27 @@ const Chat = () => {
     dispatch(setInitialState());
   }, []);
 
+  const handleNewChannel = () => {
+    dispatch(openModal(newChannelModal()));
+  };
+
   return (
     <Container fluid className="h-100 px-0">
       <Row className="h-100 m-0">
         <Col xs lg="2" className="p-3 bg-light">
-          <h6>Channels</h6>
+          <div className="d-flex justify-content-between align-items-center mb-2">
+            <h5 className="mb-0 mr-2">Channels</h5>
+            <Button
+              variant="outline-primary"
+              size="sm"
+              type="button"
+              title="Add new channel"
+              onClick={handleNewChannel}
+            >
+              <GoPlus />
+              <span className="sr-only">Add new channel</span>
+            </Button>
+          </div>
           <Channels />
         </Col>
         <Col className="d-flex flex-column h-100 p-3">
