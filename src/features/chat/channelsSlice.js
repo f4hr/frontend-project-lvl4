@@ -1,6 +1,6 @@
 // @ts-check
 
-import { keyBy } from 'lodash';
+import { keyBy, omit, findKey } from 'lodash';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import routes from '../../routes.js';
@@ -17,6 +17,16 @@ export const addNewChannelActions = {
   request: 'newChannel',
   success: 'addNewChannelSuccess',
   failure: 'addNewChannelFailure',
+};
+export const removeChannelActions = {
+  request: 'removeChannel',
+  success: 'removeChannelSuccess',
+  failure: 'removeChannelFailure',
+};
+export const renameChannelActions = {
+  request: 'renameChannel',
+  success: 'renameChannelSuccess',
+  failure: 'renameChannelFailure',
 };
 
 const getAuthHeader = () => {
@@ -46,6 +56,19 @@ export const channelsSlice = createSlice({
       state.allIds.push(id);
       state.byId[id] = action.payload;
     },
+    removeChannel: (state, action) => {
+      const { id } = action.payload;
+      const { byId, allIds } = state;
+      state.allIds = allIds.filter((channelId) => channelId !== id);
+      state.byId = omit(byId, id);
+      if (state.currentChannelId === id) {
+        state.currentChannelId = Number(findKey(byId, ['name', 'general']));
+      }
+    },
+    renameChannel: (state, action) => {
+      const { id, name } = action.payload;
+      state.byId[id].name = name;
+    },
     addNewChannel: {
       reducer: (state) => {
         state.status = 'pending';
@@ -66,6 +89,46 @@ export const channelsSlice = createSlice({
     [addNewChannelActions.failure]: (state) => {
       state.status = 'failed';
       state.error = 'Add new channel failed';
+    },
+    removeChannelRequest: {
+      reducer: (state) => {
+        state.status = 'pending';
+      },
+      prepare: (channelId) => ({
+        payload: {
+          type: 'socket',
+          scope: 'channels',
+          actions: removeChannelActions,
+          body: { id: Number(channelId) },
+        },
+      }),
+    },
+    [removeChannelActions.success]: (state) => {
+      state.status = 'succeeded';
+    },
+    [removeChannelActions.failure]: (state) => {
+      state.status = 'failed';
+      state.error = 'Remove channel failed';
+    },
+    renameChannelRequest: {
+      reducer: (state) => {
+        state.status = 'pending';
+      },
+      prepare: ({ id, name }) => ({
+        payload: {
+          type: 'socket',
+          scope: 'channels',
+          actions: renameChannelActions,
+          body: { id, name },
+        },
+      }),
+    },
+    [renameChannelActions.success]: (state) => {
+      state.status = 'succeeded';
+    },
+    [renameChannelActions.failure]: (state) => {
+      state.status = 'failed';
+      state.error = 'Remove channel failed';
     },
     setCurrentChannel: (state, action) => {
       const channelId = parseInt(action.payload, 10);
@@ -93,8 +156,15 @@ export const channelsSlice = createSlice({
 
 export const serverActions = [
   'newChannel',
+  'removeChannel',
+  'renameChannel',
 ];
 export const { actions } = channelsSlice;
-export const { addNewChannel, setCurrentChannel } = channelsSlice.actions;
+export const {
+  addNewChannel,
+  removeChannelRequest,
+  renameChannelRequest,
+  setCurrentChannel,
+} = channelsSlice.actions;
 
 export default channelsSlice.reducer;
