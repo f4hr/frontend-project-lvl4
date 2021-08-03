@@ -6,12 +6,18 @@ import {
   actions as messagesActions,
   serverActions as messagesServerActions,
 } from '../../features/chat/messagesSlice.js';
+import {
+  actions as channelsActions,
+  serverActions as channelsServerActions,
+} from '../../features/chat/channelsSlice.js';
 
 const actions = {
   ...messagesActions,
+  ...channelsActions,
 };
 const serverActions = [
   ...messagesServerActions,
+  ...channelsServerActions,
 ];
 
 const socketMiddleware = () => (storeAPI) => {
@@ -32,7 +38,7 @@ const socketMiddleware = () => (storeAPI) => {
 
     socket.emit(requestActions.request, (action.payload.body), (response) => {
       if (response.status === 'ok') {
-        storeAPI.dispatch(actions[requestActions.success]());
+        storeAPI.dispatch(actions[requestActions.success](response));
       } else {
         storeAPI.dispatch(actions[requestActions.failure]());
       }
