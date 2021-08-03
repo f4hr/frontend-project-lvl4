@@ -60,7 +60,7 @@ export const channelsSlice = createSlice({
       }),
     },
     [addNewChannelActions.success]: (state, action) => {
-      state.currentChannelId = action.payload.id;
+      state.currentChannelId = action.payload.data.id;
       state.status = 'succeeded';
     },
     [addNewChannelActions.failure]: (state) => {
