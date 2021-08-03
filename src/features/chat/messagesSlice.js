@@ -73,5 +73,6 @@ export const serverActions = [
 ];
 
 export const { actions } = messagesSlice;
+export const { sendMessage } = messagesSlice.actions;
 
 export default messagesSlice.reducer;
