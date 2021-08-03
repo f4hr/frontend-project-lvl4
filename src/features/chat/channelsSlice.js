@@ -13,6 +13,12 @@ const initialState = {
   error: null,
 };
 
+export const addNewChannelActions = {
+  request: 'newChannel',
+  success: 'addNewChannelSuccess',
+  failure: 'addNewChannelFailure',
+};
+
 const getAuthHeader = () => {
   const userId = JSON.parse(localStorage.getItem('userId'));
 
@@ -35,8 +41,31 @@ export const channelsSlice = createSlice({
   name: 'channels',
   initialState,
   reducers: {
-    addChannel: (state, action) => {
-      console.log(action.payload);
+    newChannel: (state, action) => {
+      const { id } = action.payload;
+      state.allIds.push(id);
+      state.byId[id] = action.payload;
+    },
+    addNewChannel: {
+      reducer: (state) => {
+        state.status = 'pending';
+      },
+      prepare: (channelName) => ({
+        payload: {
+          type: 'socket',
+          scope: 'channels',
+          actions: addNewChannelActions,
+          body: channelName,
+        },
+      }),
+    },
+    [addNewChannelActions.success]: (state, action) => {
+      state.currentChannelId = action.payload.id;
+      state.status = 'succeeded';
+    },
+    [addNewChannelActions.failure]: (state) => {
+      state.status = 'failed';
+      state.error = 'Add new channel failed';
     },
     setCurrentChannel: (state, action) => {
       const channelId = parseInt(action.payload, 10);
@@ -62,6 +91,10 @@ export const channelsSlice = createSlice({
   },
 });
 
-export const { addChannel, setCurrentChannel } = channelsSlice.actions;
+export const serverActions = [
+  'newChannel',
+];
+export const { actions } = channelsSlice;
+export const { addNewChannel, setCurrentChannel } = channelsSlice.actions;
 
 export default channelsSlice.reducer;
