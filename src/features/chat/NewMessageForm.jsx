@@ -6,7 +6,7 @@ import { Form, Button } from 'react-bootstrap';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import useAuth from '../../common/hooks/index.jsx';
-import { actions } from './messagesSlice.js';
+import { sendMessage } from './messagesSlice.js';
 
 const NewMessageForm = () => {
   const dispatch = useDispatch();
@@ -27,7 +27,7 @@ const NewMessageForm = () => {
       username,
       body,
     };
-    dispatch(actions.sendMessage(message));
+    dispatch(sendMessage(message));
 
     setSubmitting(false);
     resetForm({ values: initialValues });
