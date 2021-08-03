@@ -50,6 +50,8 @@ const LoginForm = () => {
 
   return (
     <Formik
+      validateOnChange={false}
+      validateOnBlur={false}
       validationSchema={schema}
       onSubmit={handleLogin}
       initialValues={{
