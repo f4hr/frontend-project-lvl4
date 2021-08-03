@@ -14,6 +14,7 @@ import useAuth from '../common/hooks/index.jsx';
 import Navigation from '../common/Navigation.jsx';
 import Login from '../features/login/Login.jsx';
 import Chat from '../features/chat/Chat.jsx';
+import Modals from '../features/modals/Modals.jsx';
 
 const AuthProvider = ({ children }) => {
   const getInitialState = () => localStorage.getItem('userId') !== null;
@@ -103,6 +104,7 @@ const App = () => (
         </Container>
       </div>
     </Router>
+    <Modals />
   </AuthProvider>
 );
 
