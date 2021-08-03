@@ -1,8 +1,8 @@
 // @ts-check
 
-import { keyBy } from 'lodash';
+import { keys, keyBy, pickBy } from 'lodash';
 import { createSlice } from '@reduxjs/toolkit';
-import { setInitialState } from './channelsSlice.js';
+import { setInitialState, removeChannelActions } from './channelsSlice.js';
 
 const initialState = {
   byId: {},
@@ -64,6 +64,12 @@ export const messagesSlice = createSlice({
         const { messages } = action.payload;
         state.allIds = messages.map(({ id }) => id);
         state.byId = keyBy(messages, 'id');
+      })
+      .addCase(`channels/${removeChannelActions.request}`, (state, action) => {
+        const { id } = action.payload;
+        const { byId } = state;
+        state.byId = pickBy(byId, ({ channelId }) => channelId !== id);
+        state.allIds = keys(state.byId).map((key) => Number(key));
       });
   },
 });
