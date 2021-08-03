@@ -60,7 +60,7 @@ const NewChannelForm = ({ handleFormSubmit, handleClose }) => {
                 type="text"
                 name="name"
                 value={values.name}
-                placeholder="Enter new channel name..."
+                placeholder="Enter channel name..."
                 ref={inputRef}
                 onChange={handleChange}
                 readOnly={status === 'pending'}
@@ -70,7 +70,7 @@ const NewChannelForm = ({ handleFormSubmit, handleClose }) => {
             </Form.Group>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose}>Close</Button>
+            <Button variant="secondary" onClick={handleClose}>Cancel</Button>
             <Button
               type="submit"
               variant="primary"
