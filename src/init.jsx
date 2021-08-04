@@ -3,10 +3,14 @@
 import React from 'react';
 import { I18nextProvider } from 'react-i18next';
 import { Provider } from 'react-redux';
+import rollbar from './rollbar.js';
 import store from './app/store.js';
 import i18n from './i18n.js';
 import App from './app/App.jsx';
 
+if (process.env.NODE_ENV === 'production') {
+  rollbar();
+}
 if (process.env.NODE_ENV !== 'production') {
   localStorage.debug = 'chat:*';
 }
