@@ -1,6 +1,7 @@
 // @ts-check
 
 import React, { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   Container,
@@ -23,6 +24,7 @@ import {
 } from '../modals/modalsSlice.js';
 
 const Channels = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const {
     byId,
@@ -32,11 +34,11 @@ const Channels = () => {
   } = useSelector((state) => state.channels);
 
   if (status === 'loading') {
-    return <div>Loading...</div>;
+    return <div>{t('channels.loading')}</div>;
   }
 
   if (status === 'failed') {
-    return <div>Failed to load channels</div>;
+    return <div>{t('channels.error.load')}</div>;
   }
 
   const handleChannelChange = (channelId) => () => {
@@ -83,8 +85,8 @@ const Channels = () => {
                 <>
                   <Dropdown.Toggle split variant={(currentChannelId === id) ? 'primary' : 'link'} />
                   <Dropdown.Menu>
-                    <Dropdown.Item href="#" onClick={handleRemoveChannel(id)}>Remove</Dropdown.Item>
-                    <Dropdown.Item href="#" onClick={handleRenameChannel(id)}>Rename</Dropdown.Item>
+                    <Dropdown.Item href="#" onClick={handleRemoveChannel(id)}>{t('channels.removeChannel')}</Dropdown.Item>
+                    <Dropdown.Item href="#" onClick={handleRenameChannel(id)}>{t('channels.renameChannel')}</Dropdown.Item>
                   </Dropdown.Menu>
                 </>
               )
@@ -97,15 +99,16 @@ const Channels = () => {
 };
 
 const Messages = () => {
+  const { t } = useTranslation();
   const { currentChannelId } = useSelector((state) => state.channels);
   const { byId, allIds, status } = useSelector((state) => state.messages);
 
   if (status === 'pending') {
-    return <div>Loading...</div>;
+    return <div>{t('messages.loading')}</div>;
   }
 
   if (status === 'failed') {
-    return <div>Failed to load messages</div>;
+    return <div>{t('messages.errors.load')}</div>;
   }
 
   const filteredMessages = allIds
@@ -113,7 +116,7 @@ const Messages = () => {
     .filter(({ channelId }) => channelId === currentChannelId);
 
   if (filteredMessages.length === 0) {
-    return <div>No messages in this channel</div>;
+    return <div>{t('messages.noMessages')}</div>;
   }
 
   return (
@@ -129,6 +132,7 @@ const Messages = () => {
 };
 
 const Chat = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -144,16 +148,16 @@ const Chat = () => {
       <Row className="h-100 m-0">
         <Col xs lg="2" className="p-3 bg-light">
           <div className="d-flex justify-content-between align-items-center mb-2">
-            <h5 className="mb-0 mr-2">Channels</h5>
+            <h5 className="mb-0 mr-2">{t('channels.title')}</h5>
             <Button
               variant="outline-primary"
               size="sm"
               type="button"
-              title="Add new channel"
+              title={t('channels.newChannel')}
               onClick={handleNewChannel}
             >
               <GoPlus />
-              <span className="sr-only">Add new channel</span>
+              <span className="sr-only">{t('channels.addNewChannel')}</span>
             </Button>
           </div>
           <Scrollbars style={{ height: 'calc(100% - 40px)' }}>
