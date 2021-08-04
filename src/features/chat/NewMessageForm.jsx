@@ -1,6 +1,7 @@
 // @ts-check
 
 import React, { useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { Form, Button } from 'react-bootstrap';
 import { Formik } from 'formik';
@@ -9,6 +10,7 @@ import useAuth from '../../common/hooks/index.jsx';
 import { sendMessage } from './messagesSlice.js';
 
 const NewMessageForm = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const { currentChannelId } = useSelector((state) => state.channels);
   const { status } = useSelector((state) => state.messages);
@@ -35,8 +37,8 @@ const NewMessageForm = () => {
 
   const schema = Yup.object({
     message: Yup.string()
-      .trim('Message containing only whitespaces is not allowed')
-      .required('Required field'),
+      .trim(t('form.errors.whitespace'))
+      .required(t('form.errors.required')),
   });
 
   return (
@@ -57,7 +59,7 @@ const NewMessageForm = () => {
               type="text"
               name="message"
               value={values.message}
-              placeholder="Enter message..."
+              placeholder={t('newMessageForm.messagePlaceholder')}
               ref={inputRef}
               onChange={handleChange}
               readOnly={status === 'pending'}
@@ -72,7 +74,7 @@ const NewMessageForm = () => {
               || status === 'pending'
             }
           >
-            Send
+            {t('form.submit')}
           </Button>
         </Form>
       )}
