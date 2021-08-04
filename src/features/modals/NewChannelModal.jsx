@@ -1,6 +1,7 @@
 // @ts-check
 
 import React, { useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal, Form, Button } from 'react-bootstrap';
 import { Formik } from 'formik';
@@ -9,6 +10,7 @@ import { addNewChannel } from '../chat/channelsSlice.js';
 import { newChannelModal, closeModal } from './modalsSlice.js';
 
 const NewChannelForm = ({ handleFormSubmit, handleClose }) => {
+  const { t } = useTranslation();
   const { byId, allIds, status } = useSelector((state) => state.channels);
   const inputRef = useRef();
   const initialValues = { name: '' };
@@ -30,9 +32,9 @@ const NewChannelForm = ({ handleFormSubmit, handleClose }) => {
 
   const schema = Yup.object({
     name: Yup.string()
-      .notOneOf(getChannelNames(), 'Name already exists')
-      .trim('Whitespaces at beginning and end of the name are not allowed')
-      .required('Required field')
+      .notOneOf(getChannelNames(), t('newChannelForm.errors.unique'))
+      .trim(t('form.errors.whitespace'))
+      .required(t('form.errors.required'))
       .strict(),
   });
 
@@ -52,7 +54,7 @@ const NewChannelForm = ({ handleFormSubmit, handleClose }) => {
       }) => (
         <Form noValidate onSubmit={handleSubmit}>
           <Modal.Header closeButton>
-            <Modal.Title>New channel</Modal.Title>
+            <Modal.Title>{t('newChannelModal.title')}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <Form.Group controlId="newChannelName">
@@ -60,7 +62,7 @@ const NewChannelForm = ({ handleFormSubmit, handleClose }) => {
                 type="text"
                 name="name"
                 value={values.name}
-                placeholder="Enter channel name..."
+                placeholder={t('newChannelForm.namePlaceholder')}
                 ref={inputRef}
                 onChange={handleChange}
                 readOnly={status === 'pending'}
@@ -70,7 +72,7 @@ const NewChannelForm = ({ handleFormSubmit, handleClose }) => {
             </Form.Group>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose}>Cancel</Button>
+            <Button variant="secondary" onClick={handleClose}>{t('form.cancel')}</Button>
             <Button
               type="submit"
               variant="primary"
@@ -79,7 +81,7 @@ const NewChannelForm = ({ handleFormSubmit, handleClose }) => {
                 || status === 'pending'
               }
             >
-              Add channel
+              {t('newChannelForm.submit')}
             </Button>
           </Modal.Footer>
         </Form>

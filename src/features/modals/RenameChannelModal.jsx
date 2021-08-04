@@ -1,6 +1,7 @@
 // @ts-check
 
 import React, { useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal, Form, Button } from 'react-bootstrap';
 import { Formik } from 'formik';
@@ -9,6 +10,7 @@ import { renameChannelRequest } from '../chat/channelsSlice.js';
 import { renameChannelModal, closeModal } from './modalsSlice.js';
 
 const RenameChannelForm = ({ handleFormSubmit, handleClose, channelId }) => {
+  const { t } = useTranslation();
   const { byId, allIds, status } = useSelector((state) => state.channels);
   const inputRef = useRef();
   const initialValues = { name: byId[channelId].name };
@@ -20,19 +22,18 @@ const RenameChannelForm = ({ handleFormSubmit, handleClose, channelId }) => {
     inputRef.current.select();
   }, []);
 
-  const handleRenameChannel = (values, { resetForm, setSubmitting }) => {
+  const handleRenameChannel = (values, { setSubmitting }) => {
     const body = values.name.trim();
 
     handleFormSubmit(body);
     setSubmitting(false);
-    resetForm({ values: initialValues });
   };
 
   const schema = Yup.object({
     name: Yup.string()
-      .notOneOf(getChannelNames(), 'Name already exists')
-      .trim('Whitespaces at beginning and end of the name are not allowed')
-      .required('Required field')
+      .notOneOf(getChannelNames(), t('renameChannelForm.errors.unique'))
+      .trim(t('form.errors.whitespace'))
+      .required(t('form.errors.required'))
       .strict(),
   });
 
@@ -52,7 +53,7 @@ const RenameChannelForm = ({ handleFormSubmit, handleClose, channelId }) => {
       }) => (
         <Form noValidate onSubmit={handleSubmit}>
           <Modal.Header closeButton>
-            <Modal.Title>Rename channel</Modal.Title>
+            <Modal.Title>{t('renameChannelModal.title')}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <Form.Group controlId="newChannelName">
@@ -60,7 +61,7 @@ const RenameChannelForm = ({ handleFormSubmit, handleClose, channelId }) => {
                 type="text"
                 name="name"
                 value={values.name}
-                placeholder="Enter new channel name..."
+                placeholder={t('renameChannelForm.namePlaceholder')}
                 ref={inputRef}
                 onChange={handleChange}
                 readOnly={status === 'pending'}
@@ -70,7 +71,7 @@ const RenameChannelForm = ({ handleFormSubmit, handleClose, channelId }) => {
             </Form.Group>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose}>Cancel</Button>
+            <Button variant="secondary" onClick={handleClose}>{t('form.cancel')}</Button>
             <Button
               type="submit"
               variant="primary"
@@ -79,7 +80,7 @@ const RenameChannelForm = ({ handleFormSubmit, handleClose, channelId }) => {
                 || status === 'pending'
               }
             >
-              Change
+              {t('renameChannelForm.submit')}
             </Button>
           </Modal.Footer>
         </Form>
