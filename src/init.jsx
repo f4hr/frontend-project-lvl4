@@ -1,9 +1,10 @@
 // @ts-check
 
 import React from 'react';
+import { I18nextProvider } from 'react-i18next';
 import { Provider } from 'react-redux';
-import 'regenerator-runtime/runtime.js';
 import store from './app/store.js';
+import i18n from './i18n.js';
 import App from './app/App.jsx';
 
 if (process.env.NODE_ENV !== 'production') {
@@ -12,7 +13,9 @@ if (process.env.NODE_ENV !== 'production') {
 
 const init = () => (
   <Provider store={store}>
-    <App />
+    <I18nextProvider i18n={i18n}>
+      <App />
+    </I18nextProvider>
   </Provider>
 );
 
