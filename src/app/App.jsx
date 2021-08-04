@@ -15,6 +15,7 @@ import Navigation from '../common/Navigation.jsx';
 import Login from '../features/login/Login.jsx';
 import Chat from '../features/chat/Chat.jsx';
 import Modals from '../features/modals/Modals.jsx';
+import Signup from '../features/signup/Signup.jsx';
 
 const AuthProvider = ({ children }) => {
   const getInitialState = () => localStorage.getItem('userId') !== null;
@@ -93,6 +94,9 @@ const App = () => (
           <Switch>
             <Route path="/login">
               <Login />
+            </Route>
+            <Route path="/signup">
+              <Signup />
             </Route>
             <Route exact path="/">
               <ChatRoute />
