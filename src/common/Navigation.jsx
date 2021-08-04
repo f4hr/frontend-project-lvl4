@@ -21,7 +21,7 @@ const AuthButton = () => {
 const Navigation = () => (
   <Navbar bg="dark" variant="dark" expand="lg" sticky="top" className="shadow">
     <Container fluid>
-      <Navbar.Brand as={Link} to="/">Simple Slack</Navbar.Brand>
+      <Navbar.Brand as={Link} to="/">Hexlet Chat</Navbar.Brand>
       <Nav>
         <AuthButton />
       </Nav>
