@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Container,
   Navbar,
@@ -9,12 +10,13 @@ import { Link } from 'react-router-dom';
 import useAuth from './hooks/index.jsx';
 
 const AuthButton = () => {
+  const { t } = useTranslation();
   const auth = useAuth();
 
   return (
     auth.loggedIn
-      ? <Button onClick={auth.logOut} variant="primary">Log Out</Button>
-      : <Button as={Link} to="/login" variant="primary">Log In</Button>
+      ? <Button onClick={auth.logOut} variant="primary">{t('nav.logOut')}</Button>
+      : <Button as={Link} to="/login" variant="primary">{t('nav.logIn')}</Button>
   );
 };
 
