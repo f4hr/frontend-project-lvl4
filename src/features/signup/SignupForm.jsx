@@ -1,6 +1,7 @@
 // @ts-check
 
 import React, { useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
 import { Form, Col, Button } from 'react-bootstrap';
 import { Formik } from 'formik';
@@ -9,12 +10,8 @@ import axios from 'axios';
 import useAuth from '../../common/hooks/index.jsx';
 import routes from '../../routes';
 
-const errorMessages = {
-  network: () => 'Network error',
-  signup: (username) => `User with name "${username}" already exists`,
-};
-
 const SignupForm = () => {
+  const { t } = useTranslation();
   const history = useHistory();
   const auth = useAuth();
   const inputRef = useRef();
@@ -32,8 +29,8 @@ const SignupForm = () => {
     } catch (err) {
       if (err.isAxiosError) {
         const errorMsg = (err.response.status === 409)
-          ? errorMessages.signup(values.username)
-          : errorMessages.network();
+          ? t('signUpForm.errors.exists')
+          : t('errors.network');
         setFieldError('username', errorMsg);
         setSubmitting(false);
         inputRef.current.select();
@@ -45,15 +42,15 @@ const SignupForm = () => {
 
   const schema = Yup.object({
     username: Yup.string()
-      .min(3, 'Min 3 characters')
-      .max(20, 'Max 20 characters')
-      .required('Required field'),
+      .min(3, t('form.errors.min', { min: 3 }))
+      .max(20, t('form.errors.max', { min: 3, max: 20 }))
+      .required(t('form.errors.required')),
     password: Yup.string()
-      .min(6, 'Should be at least 6 characters')
-      .required('Required field'),
+      .min(6, t('form.errors.min', { min: 6 }))
+      .required(t('form.errors.required')),
     confirmPassword: Yup.string()
-      .oneOf([Yup.ref('password'), null], 'Passwords must match')
-      .required('Required field'),
+      .oneOf([Yup.ref('password'), null], t('form.errors.passwordMatch'))
+      .required(t('form.errors.required')),
   });
 
   return (
@@ -78,7 +75,7 @@ const SignupForm = () => {
       }) => (
         <Form noValidate onSubmit={handleSubmit}>
           <Form.Group controlId="username">
-            <Form.Label>Username</Form.Label>
+            <Form.Label>{t('signUpForm.username')}</Form.Label>
             <Form.Control
               type="text"
               name="username"
@@ -93,7 +90,7 @@ const SignupForm = () => {
             <Form.Control.Feedback type="invalid">{errors.username}</Form.Control.Feedback>
           </Form.Group>
           <Form.Group controlId="password">
-            <Form.Label>Password</Form.Label>
+            <Form.Label>{t('signUpForm.password')}</Form.Label>
             <Form.Control
               type="password"
               name="password"
@@ -107,7 +104,7 @@ const SignupForm = () => {
             <Form.Control.Feedback type="invalid">{errors.password}</Form.Control.Feedback>
           </Form.Group>
           <Form.Group controlId="confirmPassword">
-            <Form.Label>Confirm password</Form.Label>
+            <Form.Label>{t('signUpForm.confirmPassword')}</Form.Label>
             <Form.Control
               type="password"
               name="confirmPassword"
@@ -128,7 +125,7 @@ const SignupForm = () => {
               block
               disabled={isSubmitting || !isValid}
             >
-              Sign Up
+              {t('signUpForm.submit')}
             </Button>
           </Col>
         </Form>
