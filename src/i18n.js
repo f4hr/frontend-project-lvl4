@@ -15,7 +15,7 @@ const i18nextInstance = i18n.createInstance();
 i18nextInstance
   .use(initReactI18next)
   .init({
-    debug: process.env.NODE_ENV === 'production',
+    debug: process.env.NODE_ENV === 'development',
     lng: 'ru',
     fallbackLng: 'ru',
     ns: ['translation'],
