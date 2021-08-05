@@ -11,11 +11,11 @@ import App from './app/App.jsx';
 if (process.env.NODE_ENV !== 'production') {
   localStorage.debug = 'chat:*';
 }
-if (process.env.NODE_ENV === 'production') {
-  initRollbar();
+if (process.env.NODE_ENV !== 'production') {
+  const rollbar = initRollbar();
+  window.onerror('TestRollbarError: testing window.onerror', window.location.href);
+  rollbar.log('Hello world!');
 }
-console.log(process.env.NODE_ENV);
-console.log(process.env.ROLLBAR_ACCESS_TOKEN);
 
 const init = () => (
   <Provider store={store}>
