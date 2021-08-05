@@ -29,7 +29,7 @@ const SignupForm = () => {
     } catch (err) {
       if (err.isAxiosError) {
         const errorMsg = (err.response.status === 409)
-          ? t('signUpForm.errors.exists')
+          ? t('signUpForm.errors.unique')
           : t('errors.network');
         setFieldError('username', errorMsg);
         setSubmitting(false);
