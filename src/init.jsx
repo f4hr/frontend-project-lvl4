@@ -14,6 +14,8 @@ if (process.env.NODE_ENV !== 'production') {
 if (process.env.NODE_ENV === 'production') {
   initRollbar();
 }
+console.log(process.env.NODE_ENV);
+console.log(process.env.ROLLBAR_ACCESS_TOKEN);
 
 const init = () => (
   <Provider store={store}>
