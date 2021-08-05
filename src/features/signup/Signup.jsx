@@ -1,6 +1,7 @@
 // @ts-check
 
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Container, Row, Col } from 'react-bootstrap';
 import SignupForm from './SignupForm.jsx';
@@ -14,6 +15,11 @@ const Signup = () => {
         <Col className="login flex-column py-3">
           <h1>{t('signUp.title')}</h1>
           <SignupForm />
+          <p className="mt-3 mb-0 text-center">
+            {`${t('signUp.logInText')} `}
+            <Link to="/login">{t('signUp.logInLink')}</Link>
+            .
+          </p>
         </Col>
       </Row>
     </Container>
