@@ -157,7 +157,7 @@ const Chat = () => {
               onClick={handleNewChannel}
             >
               <GoPlus />
-              <span className="sr-only">{t('channels.addNewChannel')}</span>
+              <span className="sr-only">{t('channels.newChannel')}</span>
             </Button>
           </div>
           <Scrollbars style={{ height: 'calc(100% - 40px)' }}>
