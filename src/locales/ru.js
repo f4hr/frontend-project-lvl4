@@ -36,9 +36,12 @@ export default {
       logIn: 'Войти',
       logOut: 'Выйти',
     },
+    langSelector: {
+      description: 'Язык интерфейса',
+    },
     logIn: {
       title: 'Войти',
-      signUpText: 'Нет аккаунта',
+      signUpText: 'Нет аккаунта?',
       signUpLink: 'Регистрация',
     },
     logInForm: {
@@ -51,6 +54,8 @@ export default {
     },
     signUp: {
       title: 'Регистрация',
+      logInText: 'Уже есть аккаунт?',
+      logInLink: 'Войти',
     },
     signUpForm: {
       username: 'Имя пользователя',
