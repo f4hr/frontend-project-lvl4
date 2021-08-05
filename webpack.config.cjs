@@ -26,7 +26,6 @@ module.exports = {
   plugins: [
     new MiniCssExtractPlugin(),
     new webpack.DefinePlugin({
-      'process.env': JSON.stringify(process.env),
       'process.env.ROLLBAR_ACCESS_TOKEN': JSON.stringify(process.env.ROLLBAR_ACCESS_TOKEN),
     }),
   ],
