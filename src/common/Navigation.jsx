@@ -1,3 +1,5 @@
+// @ts-check
+
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -8,6 +10,7 @@ import {
 } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import useAuth from './hooks/index.jsx';
+import LanguageSelector from './LanguageSelector.jsx';
 
 const AuthButton = () => {
   const { t } = useTranslation();
@@ -25,6 +28,7 @@ const Navigation = () => (
     <Container fluid>
       <Navbar.Brand as={Link} to="/">Hexlet Chat</Navbar.Brand>
       <Nav>
+        <LanguageSelector />
         <AuthButton />
       </Nav>
     </Container>
