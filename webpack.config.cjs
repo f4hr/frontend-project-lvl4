@@ -35,7 +35,20 @@ module.exports = {
       {
         test: /\.js$/,
         enforce: 'pre',
-        use: 'source-map-loader',
+        use: [
+          {
+            loader: 'source-map-loader',
+            options: {
+              filterSourceMappingUrl: (url, resourcePath) => {
+                if (/redux-toolkit\.esm\.js$/i.test(resourcePath)) {
+                  return false;
+                }
+
+                return true;
+              },
+            },
+          },
+        ],
       },
       {
         test: /\.s[ac]ss$/i,
