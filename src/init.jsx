@@ -11,7 +11,7 @@ import App from './app/App.jsx';
 if (process.env.NODE_ENV !== 'production') {
   localStorage.debug = 'chat:*';
 }
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV === 'production') {
   const rollbar = initRollbar();
   window.onerror('TestRollbarError: testing window.onerror', window.location.href);
   rollbar.log('Hello world!');
