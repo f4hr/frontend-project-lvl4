@@ -62,6 +62,7 @@ const NewChannelForm = ({ handleFormSubmit, handleClose }) => {
                 type="text"
                 name="name"
                 value={values.name}
+                data-testid="add-channel"
                 placeholder={t('newChannelForm.namePlaceholder')}
                 ref={inputRef}
                 onChange={handleChange}

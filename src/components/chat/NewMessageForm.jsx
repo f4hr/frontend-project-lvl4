@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Form, Button } from 'react-bootstrap';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import useAuth from '../../common/hooks/index.jsx';
+import useAuth from '../../hooks/index.jsx';
 import { sendMessage } from './messagesSlice.js';
 
 const NewMessageForm = () => {
@@ -59,6 +59,7 @@ const NewMessageForm = () => {
               type="text"
               name="message"
               value={values.message}
+              data-testid="new-message"
               placeholder={t('newMessageForm.messagePlaceholder')}
               ref={inputRef}
               onChange={handleChange}

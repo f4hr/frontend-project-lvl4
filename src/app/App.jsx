@@ -9,13 +9,13 @@ import {
   Redirect,
 } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
-import authContext from '../common/contexts/index.jsx';
-import useAuth from '../common/hooks/index.jsx';
-import Navigation from '../common/Navigation.jsx';
-import Login from '../features/login/Login.jsx';
-import Chat from '../features/chat/Chat.jsx';
-import Modals from '../features/modals/Modals.jsx';
-import Signup from '../features/signup/Signup.jsx';
+import authContext from '../contexts/index.jsx';
+import useAuth from '../hooks/index.jsx';
+import Navigation from '../components/common/Navigation.jsx';
+import Login from '../components/login/Login.jsx';
+import Chat from '../components/chat/Chat.jsx';
+import Modals from '../components/modals/Modals.jsx';
+import Signup from '../components/signup/Signup.jsx';
 
 const AuthProvider = ({ children }) => {
   const getInitialState = () => localStorage.getItem('userId') !== null;

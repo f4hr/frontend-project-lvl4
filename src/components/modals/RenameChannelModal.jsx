@@ -61,6 +61,7 @@ const RenameChannelForm = ({ handleFormSubmit, handleClose, channelId }) => {
                 type="text"
                 name="name"
                 value={values.name}
+                data-testid="rename-channel"
                 placeholder={t('renameChannelForm.namePlaceholder')}
                 ref={inputRef}
                 onChange={handleChange}

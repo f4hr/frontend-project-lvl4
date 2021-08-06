@@ -7,7 +7,7 @@ import { Form, Col, Button } from 'react-bootstrap';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
-import useAuth from '../../common/hooks/index.jsx';
+import useAuth from '../../hooks/index.jsx';
 import routes from '../../routes';
 
 const SignupForm = () => {

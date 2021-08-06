@@ -1,27 +1,9 @@
 // @ts-check
 
-import { io } from 'socket.io-client';
 import { get, noop } from 'lodash';
-import {
-  actions as messagesActions,
-  serverActions as messagesServerActions,
-} from '../../features/chat/messagesSlice.js';
-import {
-  actions as channelsActions,
-  serverActions as channelsServerActions,
-} from '../../features/chat/channelsSlice.js';
 
-const actions = {
-  ...messagesActions,
-  ...channelsActions,
-};
-const serverActions = [
-  ...messagesServerActions,
-  ...channelsServerActions,
-];
-
-const socketMiddleware = () => (storeAPI) => {
-  const socket = io();
+const socketMiddleware = ({ socketClient, actions, serverActions }) => (storeAPI) => {
+  const socket = socketClient;
 
   serverActions.forEach((action) => {
     socket.on(action, (response) => {
