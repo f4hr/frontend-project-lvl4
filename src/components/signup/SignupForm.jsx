@@ -42,8 +42,8 @@ const SignupForm = () => {
 
   const schema = Yup.object({
     username: Yup.string()
-      .min(3, t('form.errors.min', { min: 3 }))
-      .max(20, t('form.errors.max', { min: 3, max: 20 }))
+      .min(3, t('form.errors.minmax', { min: 3, max: 20 }))
+      .max(20, t('form.errors.minmax', { min: 3, max: 20 }))
       .required(t('form.errors.required')),
     password: Yup.string()
       .min(6, t('form.errors.min', { min: 6 }))

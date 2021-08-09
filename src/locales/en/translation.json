@@ -9,7 +9,7 @@
       "errors": {
         "required": "Required field",
         "min": "At least {{min}} characters",
-        "max": "Between {{min}} and {{max}} characters",
+        "minmax": "Between {{min}} and {{max}} characters",
         "unique": "Must be unique",
         "passwordMatch": "Passwords must match",
         "whitespace": "Must not contain only whitespaces"
