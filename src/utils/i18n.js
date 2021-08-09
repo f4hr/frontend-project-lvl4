@@ -13,6 +13,7 @@ export default async ({ language }) => {
       debug: process.env.NODE_ENV === 'development',
       lng: language,
       fallbackLng: language,
+      whitelist: ['ru', 'en'],
       ns: ['translation'],
       resources,
       interpolation: {
