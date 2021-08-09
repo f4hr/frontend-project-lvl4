@@ -82,7 +82,7 @@ const NewChannelForm = ({ handleFormSubmit, handleClose }) => {
                 || status === 'pending'
               }
             >
-              {t('newChannelForm.submit')}
+              {t('form.submit')}
             </Button>
           </Modal.Footer>
         </Form>
