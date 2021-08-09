@@ -42,7 +42,7 @@ const Chat = () => {
               variant="outline-primary"
               size="sm"
               type="button"
-              title={t('channels.newChannel')}
+              title="+"
               onClick={handleNewChannel}
             >
               <GoPlus />
