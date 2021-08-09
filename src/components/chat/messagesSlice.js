@@ -1,6 +1,6 @@
 // @ts-check
 
-import { keys, keyBy, pickBy } from 'lodash';
+import _ from 'lodash';
 import { createSlice } from '@reduxjs/toolkit';
 import { setInitialState, removeChannelActions } from './channelsSlice.js';
 
@@ -37,7 +37,7 @@ export const messagesSlice = createSlice({
       };
       return {
         ...state,
-        allIds: [...allIds, id],
+        allIds: _.union(allIds, [id]),
         byId: { ...byId, [id]: newMessage },
       };
     },
@@ -72,7 +72,7 @@ export const messagesSlice = createSlice({
         return {
           ...state,
           allIds: messages.map(({ id }) => id),
-          byId: keyBy(messages, 'id'),
+          byId: _.keyBy(messages, 'id'),
         };
       })
       .addCase(`channels/${removeChannelActions.request}`, (state, action) => {
@@ -80,8 +80,8 @@ export const messagesSlice = createSlice({
         const { byId } = state;
         return {
           ...state,
-          allIds: keys(byId).map((key) => Number(key)),
-          byId: pickBy(byId, ({ channelId }) => channelId !== id),
+          allIds: _.keys(byId).map((key) => Number(key)),
+          byId: _.pickBy(byId, ({ channelId }) => channelId !== id),
         };
       });
   },
