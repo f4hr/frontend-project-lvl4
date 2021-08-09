@@ -10,9 +10,10 @@ export const appSlice = createSlice({
   name: 'app',
   initialState,
   reducers: {
-    changeLanguage: (state, action) => {
-      state.lang = action.payload.lang;
-    },
+    changeLanguage: (state, action) => ({
+      ...state,
+      lang: action.payload.lang,
+    }),
   },
 });
 

@@ -23,26 +23,31 @@ export const modalsSlice = createSlice({
   name: 'modals',
   initialState,
   reducers: {
-    openModal: (state, action) => {
-      state.type = action.payload.type;
-      state.meta = action.payload.meta ?? null;
-      state.isOpened = true;
-    },
-    closeModal: (state) => {
-      state.isOpened = false;
-    },
+    openModal: (state, action) => ({
+      ...state,
+      type: action.payload.type,
+      meta: action.payload.meta ?? null,
+      isOpened: true,
+    }),
+    closeModal: (state) => ({
+      ...state,
+      isOpened: false,
+    }),
   },
   extraReducers: (builder) => {
     builder
-      .addCase(`channels/${addNewChannelActions.success}`, (state) => {
-        state.isOpened = false;
-      })
-      .addCase(`channels/${removeChannelActions.success}`, (state) => {
-        state.isOpened = false;
-      })
-      .addCase(`channels/${renameChannelActions.success}`, (state) => {
-        state.isOpened = false;
-      });
+      .addCase(`channels/${addNewChannelActions.success}`, (state) => ({
+        ...state,
+        isOpened: false,
+      }))
+      .addCase(`channels/${removeChannelActions.success}`, (state) => ({
+        ...state,
+        isOpened: false,
+      }))
+      .addCase(`channels/${renameChannelActions.success}`, (state) => ({
+        ...state,
+        isOpened: false,
+      }));
   },
 });
 

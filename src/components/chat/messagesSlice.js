@@ -22,25 +22,30 @@ export const messagesSlice = createSlice({
   initialState,
   reducers: {
     newMessage: (state, action) => {
+      const { allIds, byId } = state;
       const {
         id,
         channelId,
         username,
         body,
       } = action.payload;
-
-      state.allIds.push(id);
-      state.byId[id] = {
+      const newMessage = {
         id,
         channelId,
         username,
         body,
       };
+      return {
+        ...state,
+        allIds: [...allIds, id],
+        byId: { ...byId, [id]: newMessage },
+      };
     },
     sendMessage: {
-      reducer: (state) => {
-        state.status = 'pending';
-      },
+      reducer: (state) => ({
+        ...state,
+        status: 'pending',
+      }),
       prepare: (message) => ({
         payload: {
           type: 'socket',
@@ -50,26 +55,34 @@ export const messagesSlice = createSlice({
         },
       }),
     },
-    [sendMessageActions.success]: (state) => {
-      state.status = 'succeeded';
-    },
-    [sendMessageActions.failure]: (state) => {
-      state.status = 'failed';
-      state.error = 'Message send failed';
-    },
+    [sendMessageActions.success]: (state) => ({
+      ...state,
+      status: 'succeeded',
+    }),
+    [sendMessageActions.failure]: (state) => ({
+      ...state,
+      status: 'failed',
+      error: 'Message send failed',
+    }),
   },
   extraReducers: (builder) => {
     builder
       .addCase(setInitialState.fulfilled, (state, action) => {
         const { messages } = action.payload;
-        state.allIds = messages.map(({ id }) => id);
-        state.byId = keyBy(messages, 'id');
+        return {
+          ...state,
+          allIds: messages.map(({ id }) => id),
+          byId: keyBy(messages, 'id'),
+        };
       })
       .addCase(`channels/${removeChannelActions.request}`, (state, action) => {
         const { id } = action.payload;
         const { byId } = state;
-        state.byId = pickBy(byId, ({ channelId }) => channelId !== id);
-        state.allIds = keys(state.byId).map((key) => Number(key));
+        return {
+          ...state,
+          allIds: keys(byId).map((key) => Number(key)),
+          byId: pickBy(byId, ({ channelId }) => channelId !== id),
+        };
       });
   },
 });

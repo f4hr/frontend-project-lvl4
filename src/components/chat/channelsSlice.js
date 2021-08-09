@@ -52,27 +52,40 @@ export const channelsSlice = createSlice({
   initialState,
   reducers: {
     newChannel: (state, action) => {
+      const { byId, allIds } = state;
       const { id } = action.payload;
-      state.allIds.push(id);
-      state.byId[id] = action.payload;
+      return {
+        ...state,
+        allIds: [...allIds, id],
+        byId: { ...byId, [id]: action.payload },
+      };
     },
     removeChannel: (state, action) => {
       const { id } = action.payload;
       const { byId, allIds } = state;
-      state.allIds = allIds.filter((channelId) => channelId !== id);
-      state.byId = omit(byId, id);
-      if (state.currentChannelId === id) {
-        state.currentChannelId = Number(findKey(byId, ['name', 'general']));
-      }
+      const currentChannelId = (state.currentChannelId === id)
+        ? Number(findKey(byId, ['name', 'general']))
+        : state.currentChannelId;
+      return {
+        ...state,
+        allIds: allIds.filter((channelId) => channelId !== id),
+        byId: omit(byId, id),
+        currentChannelId,
+      };
     },
     renameChannel: (state, action) => {
       const { id, name } = action.payload;
-      state.byId[id].name = name;
+      const channel = state.byId[id];
+      return {
+        ...state,
+        byId: { ...state.byId, [id]: { ...channel, name } },
+      };
     },
     addNewChannel: {
-      reducer: (state) => {
-        state.status = 'pending';
-      },
+      reducer: (state) => ({
+        ...state,
+        status: 'pending',
+      }),
       prepare: (channelName) => ({
         payload: {
           type: 'socket',
@@ -82,18 +95,21 @@ export const channelsSlice = createSlice({
         },
       }),
     },
-    [addNewChannelActions.success]: (state, action) => {
-      state.currentChannelId = action.payload.data.id;
-      state.status = 'succeeded';
-    },
-    [addNewChannelActions.failure]: (state) => {
-      state.status = 'failed';
-      state.error = 'Add new channel failed';
-    },
+    [addNewChannelActions.success]: (state, action) => ({
+      ...state,
+      currentChannelId: action.payload.data.id,
+      status: 'succeeded',
+    }),
+    [addNewChannelActions.failure]: (state) => ({
+      ...state,
+      status: 'failed',
+      error: 'Add new channel failed',
+    }),
     removeChannelRequest: {
-      reducer: (state) => {
-        state.status = 'pending';
-      },
+      reducer: (state) => ({
+        ...state,
+        status: 'pending',
+      }),
       prepare: (channelId) => ({
         payload: {
           type: 'socket',
@@ -103,17 +119,20 @@ export const channelsSlice = createSlice({
         },
       }),
     },
-    [removeChannelActions.success]: (state) => {
-      state.status = 'succeeded';
-    },
-    [removeChannelActions.failure]: (state) => {
-      state.status = 'failed';
-      state.error = 'Remove channel failed';
-    },
+    [removeChannelActions.success]: (state) => ({
+      ...state,
+      status: 'succeeded',
+    }),
+    [removeChannelActions.failure]: (state) => ({
+      ...state,
+      status: 'failed',
+      error: 'Remove channel failed',
+    }),
     renameChannelRequest: {
-      reducer: (state) => {
-        state.status = 'pending';
-      },
+      reducer: (state) => ({
+        ...state,
+        status: 'pending',
+      }),
       prepare: ({ id, name }) => ({
         payload: {
           type: 'socket',
@@ -123,34 +142,44 @@ export const channelsSlice = createSlice({
         },
       }),
     },
-    [renameChannelActions.success]: (state) => {
-      state.status = 'succeeded';
-    },
-    [renameChannelActions.failure]: (state) => {
-      state.status = 'failed';
-      state.error = 'Remove channel failed';
-    },
+    [renameChannelActions.success]: (state) => ({
+      ...state,
+      status: 'succeeded',
+    }),
+    [renameChannelActions.failure]: (state) => ({
+      ...state,
+      status: 'failed',
+      error: 'Remove channel failed',
+    }),
     setCurrentChannel: (state, action) => {
-      const channelId = parseInt(action.payload, 10);
-      state.currentChannelId = channelId;
+      const channelId = Number(action.payload);
+      return {
+        ...state,
+        currentChannelId: channelId,
+      };
     },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(setInitialState.pending, (state) => {
-        state.status = 'loading';
-      })
+      .addCase(setInitialState.pending, (state) => ({
+        ...state,
+        status: 'loading',
+      }))
       .addCase(setInitialState.fulfilled, (state, action) => {
         const { channels, currentChannelId } = action.payload;
-        state.currentChannelId = currentChannelId;
-        state.allIds = channels.map(({ id }) => id);
-        state.byId = keyBy(channels, 'id');
-        state.status = 'succeeded';
+        return {
+          ...state,
+          currentChannelId,
+          allIds: channels.map(({ id }) => id),
+          byId: keyBy(channels, 'id'),
+          status: 'succeeded',
+        };
       })
-      .addCase(setInitialState.rejected, (state, action) => {
-        state.status = 'failed';
-        state.error = action.error.message;
-      });
+      .addCase(setInitialState.rejected, (state, action) => ({
+        ...state,
+        status: 'failed',
+        error: action.error.message,
+      }));
   },
 });
 

@@ -26,7 +26,7 @@ const Chat = () => {
 
   useEffect(() => {
     dispatch(setInitialState());
-  }, []);
+  }, [dispatch]);
 
   const handleNewChannel = () => {
     dispatch(openModal({ type: newChannelModal() }));
