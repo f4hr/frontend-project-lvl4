@@ -5,6 +5,8 @@ root: true
 plugins:
   - react
   - functional
+  - testing-library
+  - jest-dom
 
 extends:
   - airbnb
@@ -12,6 +14,8 @@ extends:
   - "plugin:functional/recommended"
   - "plugin:react/recommended"
   - "plugin:react-hooks/recommended"
+  - "plugin:testing-library/react"
+  - "plugin:jest-dom/recommended"
 
 parser: babel-eslint
 
@@ -37,3 +41,4 @@ rules:
   functional/no-try-statement: 0
   functional/no-throw-statement: 0
   no-underscore-dangle: [2, { "allow": ["__filename", "__dirname"] }]
+  testing-library/no-debug: 0
