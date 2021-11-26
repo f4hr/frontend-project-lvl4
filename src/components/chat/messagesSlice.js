@@ -77,11 +77,12 @@ export const messagesSlice = createSlice({
       })
       .addCase(`channels/${removeChannelActions.request}`, (state, action) => {
         const { id } = action.payload;
-        const { byId } = state;
+        const filteredById = _.pickBy(state.byId, ({ channelId }) => channelId !== id);
+
         return {
           ...state,
-          allIds: _.keys(byId).map((key) => Number(key)),
-          byId: _.pickBy(byId, ({ channelId }) => channelId !== id),
+          allIds: _.keys(filteredById).map((key) => Number(key)),
+          byId: filteredById,
         };
       });
   },
