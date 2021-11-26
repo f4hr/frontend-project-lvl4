@@ -39,6 +39,10 @@
     "langSelector": {
       "description": "Interface language"
     },
+    "notFound": {
+      "title": "Page not found",
+      "description": "Unknown path: {{path}}"
+    },
     "logIn": {
       "title": "Log In",
       "signUpText": "New to Hexlet Chat?",

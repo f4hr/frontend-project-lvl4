@@ -8,6 +8,7 @@ import {
   useLocation,
   Redirect,
 } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { Container } from 'react-bootstrap';
 import authContext from '../contexts/index.jsx';
 import useAuth from '../hooks/index.jsx';
@@ -71,14 +72,14 @@ const ChatRoute = () => {
 };
 
 function NoMatch() {
+  const { t } = useTranslation();
   const location = useLocation();
 
   return (
-    <div>
-      <h3>Not found</h3>
+    <div className="text-center py-3">
+      <h3>{t('notFound.title')}</h3>
       <p>
-        No match for
-        <code>{location.pathname}</code>
+        {t('notFound.description', { path: location.pathname })}
       </p>
     </div>
   );

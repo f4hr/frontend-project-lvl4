@@ -39,6 +39,10 @@
     "langSelector": {
       "description": "Язык интерфейса"
     },
+    "notFound": {
+      "title": "Страница не найдена",
+      "description": "Неизвестный путь: {{path}}"
+    },
     "logIn": {
       "title": "Войти",
       "signUpText": "Нет аккаунта?",
