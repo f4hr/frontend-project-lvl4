@@ -56,7 +56,7 @@ const Modals = () => {
           />
         );
       default:
-        return null;
+        throw new Error(`Unknown modal type "${modalType}"`);
     }
   };
 
