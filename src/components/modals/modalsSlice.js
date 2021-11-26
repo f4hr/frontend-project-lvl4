@@ -13,12 +13,6 @@ const initialState = {
   meta: null,
 };
 
-const modals = {
-  newChannelModal: () => 'newChannelModal',
-  removeChannelModal: () => 'removeChannelModal',
-  renameChannelModal: () => 'renameChannelModal',
-};
-
 export const modalsSlice = createSlice({
   name: 'modals',
   initialState,
@@ -52,5 +46,4 @@ export const modalsSlice = createSlice({
 });
 
 export const { openModal, closeModal } = modalsSlice.actions;
-export const { newChannelModal, removeChannelModal, renameChannelModal } = modals;
 export default modalsSlice.reducer;

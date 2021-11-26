@@ -1,16 +1,70 @@
 // @ts-check
 
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Modal } from 'react-bootstrap';
+import { closeModal } from './modalsSlice.js';
 import NewChannelModal from './NewChannelModal.jsx';
-import RemoveChannelModal from './RemoveChannelModal.jsx';
 import RenameChannelModal from './RenameChannelModal.jsx';
+import RemoveChannelModal from './RemoveChannelModal.jsx';
 
-const Modals = () => (
-  <>
-    <NewChannelModal />
-    <RemoveChannelModal />
-    <RenameChannelModal />
-  </>
-);
+const MODAL_TYPES_DATA = {
+  new: {
+    modalTitle: 'newChannelModal.title',
+    inputTestId: 'add-channel',
+    placeholder: 'newChannelForm.namePlaceholder',
+    submitButtonText: 'form.submit',
+  },
+  rename: {
+    modalTitle: 'renameChannelModal.title',
+    inputTestId: 'rename-channel',
+    placeholder: 'renameChannelForm.namePlaceholder',
+    submitButtonText: 'renameChannelForm.submit',
+  },
+};
+
+const Modals = () => {
+  const dispatch = useDispatch();
+  const { isOpened, type, meta } = useSelector((state) => state.modals);
+
+  const handleClose = () => {
+    dispatch(closeModal());
+  };
+
+  const getModal = (modalType) => {
+    switch (modalType) {
+      case 'new':
+        return (
+          <NewChannelModal
+            handleClose={handleClose}
+            modalData={MODAL_TYPES_DATA[modalType]}
+          />
+        );
+      case 'rename':
+        return (
+          <RenameChannelModal
+            handleClose={handleClose}
+            modalData={MODAL_TYPES_DATA[modalType]}
+            channelId={meta.channelId}
+          />
+        );
+      case 'remove':
+        return (
+          <RemoveChannelModal
+            handleClose={handleClose}
+            channelId={meta.channelId}
+          />
+        );
+      default:
+        return null;
+    }
+  };
+
+  return (
+    <Modal show={isOpened} onHide={handleClose} centered>
+      {getModal(type)}
+    </Modal>
+  );
+};
 
 export default Modals;

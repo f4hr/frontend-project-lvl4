@@ -12,10 +12,7 @@ import {
 import { Scrollbars } from 'react-custom-scrollbars';
 import { GoPlus } from 'react-icons/go';
 import { setInitialState } from './channelsSlice.js';
-import {
-  openModal,
-  newChannelModal,
-} from '../modals/modalsSlice.js';
+import { openModal } from '../modals/modalsSlice.js';
 import Channels from './Channels.jsx';
 import Messages from './Messages.jsx';
 import NewMessageForm from './NewMessageForm.jsx';
@@ -29,7 +26,7 @@ const Chat = () => {
   }, [dispatch]);
 
   const handleNewChannel = () => {
-    dispatch(openModal({ type: newChannelModal() }));
+    dispatch(openModal({ type: 'new' }));
   };
 
   return (

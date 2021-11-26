@@ -10,11 +10,7 @@ import {
   Dropdown,
 } from 'react-bootstrap';
 import { setCurrentChannel } from './channelsSlice.js';
-import {
-  openModal,
-  removeChannelModal,
-  renameChannelModal,
-} from '../modals/modalsSlice.js';
+import { openModal } from '../modals/modalsSlice.js';
 
 const Channels = () => {
   const { t } = useTranslation();
@@ -41,7 +37,7 @@ const Channels = () => {
   const handleRemoveChannel = (id) => (e) => {
     e.preventDefault();
     const data = {
-      type: removeChannelModal(),
+      type: 'remove',
       meta: {
         channelId: id,
       },
@@ -52,7 +48,7 @@ const Channels = () => {
   const handleRenameChannel = (id) => (e) => {
     e.preventDefault();
     const data = {
-      type: renameChannelModal(),
+      type: 'rename',
       meta: {
         channelId: id,
       },
