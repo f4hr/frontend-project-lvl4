@@ -72,12 +72,14 @@
     "newChannelModal": {
       "title": "Добавить канал"
     },
-    "newChannelForm": {
-      "namePlaceholder": "Название канала",
-      "submit": "Добавить",
+    "channelForm": {
       "errors": {
         "unique": "Канал с таким именем уже существует"
       }
+    },
+    "newChannelForm": {
+      "namePlaceholder": "Название канала",
+      "submit": "Добавить"
     },
     "removeChannelModal": {
       "title": "Удалить канал",
@@ -91,10 +93,7 @@
     },
     "renameChannelForm": {
       "namePlaceholder": "Новое название канала",
-      "submit": "Переименовать",
-      "errors": {
-        "unique": "Канал с таким именем уже существует"
-      }
+      "submit": "Переименовать"
     }
   }
 }
