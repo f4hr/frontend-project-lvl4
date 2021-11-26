@@ -54,7 +54,6 @@ const AuthProvider = ({ children }) => {
   );
 };
 
-// TODO: something is not right
 const ChatRoute = () => {
   const auth = useAuth();
 
