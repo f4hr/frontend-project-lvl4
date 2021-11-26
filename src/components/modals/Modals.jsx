@@ -62,7 +62,7 @@ const Modals = () => {
 
   return (
     <Modal show={isOpened} onHide={handleClose} centered>
-      {getModal(type)}
+      {type && getModal(type)}
     </Modal>
   );
 };
