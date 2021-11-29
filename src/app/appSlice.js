@@ -4,6 +4,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   lang: 'ru',
+  censorship: true,
 };
 
 export const appSlice = createSlice({
@@ -13,6 +14,14 @@ export const appSlice = createSlice({
     changeLanguage: (state, action) => ({
       ...state,
       lang: action.payload.lang,
+    }),
+    enableCensorship: (state) => ({
+      ...state,
+      censorship: true,
+    }),
+    disableCensorship: (state) => ({
+      ...state,
+      censorship: false,
     }),
   },
 });
