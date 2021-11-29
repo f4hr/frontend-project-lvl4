@@ -55,11 +55,17 @@ module.exports = {
         ],
       },
       {
+        test: /\.css?$/,
+        use: [
+          { loader: MiniCssExtractPlugin.loader },
+          { loader: 'css-loader' },
+        ],
+      },
+      {
         test: /\.s[ac]ss$/i,
         use: [
           { loader: MiniCssExtractPlugin.loader },
           { loader: 'css-loader' },
-          { loader: 'postcss-loader' },
           { loader: 'sass-loader' },
         ],
       },
