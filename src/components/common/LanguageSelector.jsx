@@ -29,7 +29,7 @@ const LanguageSelector = () => {
 
   return (
     <DropdownButton id="dropdown-basic-button" className="mr-2" variant="secondary" title={locales[lang]}>
-      <Dropdown.Header>{t('langSelector.description')}</Dropdown.Header>
+      <Dropdown.Header>{t('lang.description')}</Dropdown.Header>
       <Dropdown.Item as="button" eventKey="ru" onSelect={handleLangSelect} active={lang === 'ru'}>Русский</Dropdown.Item>
       <Dropdown.Item as="button" eventKey="en" onSelect={handleLangSelect} active={lang === 'en'}>English</Dropdown.Item>
     </DropdownButton>
