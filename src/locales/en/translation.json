@@ -1,7 +1,9 @@
 {
   "translation": {
     "errors": {
-      "network": "Network error"
+      "auth": "Authorization error",
+      "network": "Network error",
+      "unknown": "Error"
     },
     "form": {
       "cancel": "Cancel",
@@ -29,14 +31,15 @@
       "loading": "Loading...",
       "noMessages": "Channel is empty",
       "errors": {
-        "load": "Failed to load messages"
+        "load": "Failed to load messages",
+        "send": "Failed to send message"
       }
     },
     "nav": {
       "logIn": "Log In",
       "logOut": "Log Out"
     },
-    "langSelector": {
+    "lang": {
       "description": "Interface language"
     },
     "notFound": {
@@ -73,31 +76,28 @@
     "newMessageForm": {
       "messagePlaceholder": "Enter message..."
     },
-    "newChannelModal": {
-      "title": "Add channel"
-    },
     "channelForm": {
       "errors": {
         "unique": "Канал с таким именем уже существует"
       }
     },
-    "newChannelForm": {
+    "newChannel": {
+      "title": "Add channel",
       "namePlaceholder": "Channel name",
-      "submit": "Add"
+      "submit": "Add",
+      "success": "Channel added"
     },
-    "removeChannelModal": {
-      "title": "Remove channel",
-      "description": "Remove channel \"{{name}}\"?"
-    },
-    "removeChannelForm": {
-      "submit": "Remove"
-    },
-    "renameChannelModal": {
-      "title": "Rename channel"
-    },
-    "renameChannelForm": {
+    "renameChannel": {
+      "title": "Rename channel",
       "namePlaceholder": "New channel name",
-      "submit": "Rename"
+      "submit": "Rename",
+      "success": "Channel renamed"
+    },
+    "removeChannel": {
+      "title": "Remove channel",
+      "description": "Remove channel \"{{name}}\"?",
+      "submit": "Remove",
+      "success": "Channel removed"
     }
   }
 }
