@@ -8,6 +8,7 @@ import {
   useLocation,
   Redirect,
 } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import { Container } from 'react-bootstrap';
 import authContext from '../contexts/index.jsx';
@@ -106,6 +107,7 @@ const App = () => (
             </Route>
           </Switch>
         </Container>
+        <ToastContainer position="top-center" />
       </div>
     </Router>
     <Modals />
