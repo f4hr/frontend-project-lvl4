@@ -12,13 +12,13 @@ const MODAL_TYPES_DATA = {
   new: {
     modalTitle: 'newChannel.title',
     inputTestId: 'add-channel',
-    placeholder: 'newChannel.namePlaceholder',
+    label: 'newChannel.label',
     submitButtonText: 'form.submit',
   },
   rename: {
     modalTitle: 'renameChannel.title',
     inputTestId: 'rename-channel',
-    placeholder: 'renameChannel.namePlaceholder',
+    label: 'renameChannel.label',
     submitButtonText: 'renameChannel.submit',
   },
 };

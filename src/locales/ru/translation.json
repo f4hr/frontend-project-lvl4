@@ -2,7 +2,7 @@
   "translation": {
     "errors": {
       "auth": "Ошибка авторизации",
-      "network": "Ошибка сети",
+      "network": "Ошибка соединения",
       "unknown": "Ошибка"
     },
     "form": {
@@ -23,6 +23,7 @@
       "removeChannel": "Удалить",
       "renameChannel": "Переименовать",
       "loading": "Загрузка...",
+      "edit": "Управление каналом",
       "errors": {
         "load": "Не удалось загрузить каналы"
       }
@@ -74,7 +75,8 @@
       }
     },
     "newMessageForm": {
-      "messagePlaceholder": "Введите сообщение..."
+      "messagePlaceholder": "Введите сообщение...",
+      "label": "Новое сообщение"
     },
     "channelForm": {
       "errors": {
@@ -83,14 +85,14 @@
     },
     "newChannel": {
       "title": "Добавить канал",
-      "namePlaceholder": "Название канала",
+      "label": "Имя канала",
       "submit": "Добавить",
       "success": "Канал создан"
     },
     "renameChannel": {
       "title": "Переименовать канал",
-      "namePlaceholder": "Новое название канала",
-      "submit": "Переименовать",
+      "label": "Имя канала",
+      "submit": "Отправить",
       "success": "Канал переименован"
     },
     "removeChannel": {

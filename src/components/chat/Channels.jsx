@@ -76,7 +76,11 @@ const Channels = () => {
             {(byId[id].removable)
               ? (
                 <>
-                  <Dropdown.Toggle split variant={(currentChannelId === id) ? 'primary' : 'link'} />
+                  <Dropdown.Toggle
+                    split
+                    variant={(currentChannelId === id) ? 'primary' : 'link'}
+                    aria-label={t('channels.edit')}
+                  />
                   <Dropdown.Menu>
                     <Dropdown.Item href="#" onClick={handleRemoveChannel(id)}>{t('channels.removeChannel')}</Dropdown.Item>
                     <Dropdown.Item href="#" onClick={handleRenameChannel(id)}>{t('channels.renameChannel')}</Dropdown.Item>

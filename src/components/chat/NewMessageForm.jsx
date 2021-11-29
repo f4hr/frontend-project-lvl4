@@ -61,6 +61,7 @@ const NewMessageForm = () => {
               value={values.message}
               data-testid="new-message"
               placeholder={t('newMessageForm.messagePlaceholder')}
+              aria-label={t('newMessageForm.label')}
               ref={inputRef}
               onChange={handleChange}
               readOnly={status === 'pending'}

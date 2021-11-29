@@ -19,7 +19,7 @@ export default ({
   const {
     modalTitle,
     inputTestId,
-    placeholder,
+    label,
     submitButtonText,
   } = modalData;
 
@@ -70,7 +70,8 @@ export default ({
                 name="name"
                 value={values.name}
                 data-testid={inputTestId}
-                placeholder={t(placeholder)}
+                placeholder={t(label)}
+                aria-label={t(label)}
                 ref={inputRef}
                 onChange={handleChange}
                 readOnly={status === 'pending'}

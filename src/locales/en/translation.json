@@ -23,6 +23,7 @@
       "removeChannel": "Remove",
       "renameChannel": "Rename",
       "loading": "Loading...",
+      "edit": "Edit",
       "errors": {
         "load": "Failed to load channels"
       }
@@ -74,7 +75,8 @@
       }
     },
     "newMessageForm": {
-      "messagePlaceholder": "Enter message..."
+      "messagePlaceholder": "Enter message...",
+      "label": "New message"
     },
     "channelForm": {
       "errors": {
@@ -83,13 +85,13 @@
     },
     "newChannel": {
       "title": "Add channel",
-      "namePlaceholder": "Channel name",
+      "label": "Channel name",
       "submit": "Add",
       "success": "Channel added"
     },
     "renameChannel": {
       "title": "Rename channel",
-      "namePlaceholder": "New channel name",
+      "label": "New channel name",
       "submit": "Rename",
       "success": "Channel renamed"
     },
