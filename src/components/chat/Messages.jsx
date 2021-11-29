@@ -1,20 +1,26 @@
 // @ts-check
 
 import React from 'react';
+import filter from 'leo-profanity';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
 const Messages = () => {
   const { t } = useTranslation();
-  const { currentChannelId } = useSelector((state) => state.channels);
-  const { byId, allIds, status } = useSelector((state) => state.messages);
+  const { censorship } = useSelector((state) => state.app);
+  const { currentChannelId, status: channelsStatus } = useSelector((state) => state.channels);
+  const {
+    byId,
+    allIds,
+    status,
+  } = useSelector((state) => state.messages);
+
+  if (status === 'failed' || channelsStatus === 'failed') {
+    return <div>{t('messages.errors.load')}</div>;
+  }
 
   if (status === 'pending') {
     return <div>{t('messages.loading')}</div>;
-  }
-
-  if (status === 'failed') {
-    return <div>{t('messages.errors.load')}</div>;
   }
 
   const filteredMessages = allIds
@@ -30,7 +36,7 @@ const Messages = () => {
       {filteredMessages.map(({ id, username, body }) => (
         <li key={id}>
           <b>{`${username}: `}</b>
-          {body}
+          {censorship ? filter.clean(body) : body}
         </li>
       ))}
     </ul>
