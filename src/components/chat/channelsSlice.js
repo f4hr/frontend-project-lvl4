@@ -29,6 +29,7 @@ export const renameChannelActions = {
   failure: 'renameChannelFailure',
 };
 
+// FIXME return value
 const getAuthHeader = () => {
   const userId = JSON.parse(localStorage.getItem('userId'));
 
@@ -39,13 +40,28 @@ const getAuthHeader = () => {
   return {};
 };
 
-export const setInitialState = createAsyncThunk('channels/setInitialState', async () => {
-  const response = await axios.get(routes.initialStatePath(), {
-    headers: getAuthHeader(),
-  });
+export const setInitialState = createAsyncThunk(
+  'channels/setInitialState',
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(routes.initialStatePath(), {
+        headers: getAuthHeader(),
+      });
 
-  return response.data;
-});
+      return response.data;
+    } catch (err) {
+      if (err.isAxiosError) {
+        const message = err.response.status === 401 ? 'errors.auth' : 'errors.network';
+
+        return rejectWithValue({ message });
+      }
+
+      console.error(err.response.statusText);
+
+      return rejectWithValue({ message: 'errors.unknown' });
+    }
+  },
+);
 
 export const channelsSlice = createSlice({
   name: 'channels',
@@ -178,7 +194,7 @@ export const channelsSlice = createSlice({
       .addCase(setInitialState.rejected, (state, action) => ({
         ...state,
         status: 'failed',
-        error: action.error.message,
+        error: action.payload.message,
       }));
   },
 });
