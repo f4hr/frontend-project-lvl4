@@ -9,6 +9,7 @@ import {
   ButtonGroup,
   Dropdown,
 } from 'react-bootstrap';
+import { toast } from 'react-toastify';
 import { setCurrentChannel } from './channelsSlice.js';
 import { openModal } from '../modals/modalsSlice.js';
 
@@ -20,6 +21,7 @@ const Channels = () => {
     allIds,
     currentChannelId,
     status,
+    error,
   } = useSelector((state) => state.channels);
 
   if (status === 'loading') {
@@ -27,7 +29,9 @@ const Channels = () => {
   }
 
   if (status === 'failed') {
-    return <div>{t('channels.error.load')}</div>;
+    toast.error(t(error));
+
+    return <div>{t('channels.errors.load')}</div>;
   }
 
   const handleChannelChange = (channelId) => () => {
