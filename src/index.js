@@ -8,6 +8,11 @@ import 'react-toastify/dist/ReactToastify.css';
 import './styles/application.scss';
 import init from './init.jsx';
 
-init(io()).then((vdom) => render(vdom, document.querySelector('#chat')));
+const app = async () => {
+  const vdom = await init(io());
+  render(vdom, document.querySelector('#chat'));
+};
 
-export default init;
+app();
+
+export default app;
