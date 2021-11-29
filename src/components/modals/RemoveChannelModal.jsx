@@ -4,6 +4,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector, useDispatch } from 'react-redux';
 import { Modal, Button } from 'react-bootstrap';
+import { toast } from 'react-toastify';
 import { removeChannelRequest } from '../chat/channelsSlice.js';
 
 const RemoveChannelModal = ({ handleClose, channelId }) => {
@@ -14,14 +15,15 @@ const RemoveChannelModal = ({ handleClose, channelId }) => {
 
   const handleRemoveChannel = () => {
     dispatch(removeChannelRequest(channelId));
+    toast.success(t('removeChannel.success'));
   };
 
   return (
     <>
       <Modal.Header closeButton>
-        <Modal.Title>{t('removeChannelModal.title')}</Modal.Title>
+        <Modal.Title>{t('removeChannel.title')}</Modal.Title>
       </Modal.Header>
-      <Modal.Body>{t('removeChannelModal.description', { name })}</Modal.Body>
+      <Modal.Body>{t('removeChannel.description', { name })}</Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={handleClose}>{t('form.cancel')}</Button>
         <Button
@@ -30,7 +32,7 @@ const RemoveChannelModal = ({ handleClose, channelId }) => {
           disabled={status === 'pending'}
           onClick={handleRemoveChannel}
         >
-          {t('removeChannelForm.submit')}
+          {t('removeChannel.submit')}
         </Button>
       </Modal.Footer>
     </>
