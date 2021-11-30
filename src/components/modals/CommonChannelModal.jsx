@@ -7,7 +7,7 @@ import { Modal, Form, Button } from 'react-bootstrap';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
-export default ({
+const CommonChannelModal = ({
   handleFormSubmit,
   handleClose,
   initialValues,
@@ -98,3 +98,5 @@ export default ({
     </Formik>
   );
 };
+
+export default CommonChannelModal;
