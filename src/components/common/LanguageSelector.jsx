@@ -20,7 +20,7 @@ const LanguageSelector = () => {
 
   useEffect(() => {
     i18n.changeLanguage(lang);
-  }, [lang, i18n]);
+  }, [lang]);
 
   const handleLangSelect = (eventKey, e) => {
     e.preventDefault();
