@@ -1,8 +1,8 @@
 // @ts-check
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Container,
   Row,
@@ -20,10 +20,17 @@ import NewMessageForm from './NewMessageForm.jsx';
 const Chat = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const { currentChannelId } = useSelector((state) => state.channels);
+  const { byId, status } = useSelector((state) => state.messages);
+  const scrollbarRef = useRef(null);
 
   useEffect(() => {
     dispatch(setInitialState());
-  }, [dispatch]);
+  }, []);
+
+  useEffect(() => {
+    scrollbarRef.current.scrollToBottom();
+  }, [currentChannelId, byId, status]);
 
   const handleNewChannel = () => {
     dispatch(openModal({ type: 'new' }));
@@ -51,7 +58,7 @@ const Chat = () => {
           </Scrollbars>
         </Col>
         <Col className="d-flex flex-column h-100 p-3">
-          <Scrollbars>
+          <Scrollbars ref={scrollbarRef}>
             <Messages />
           </Scrollbars>
           <NewMessageForm />
