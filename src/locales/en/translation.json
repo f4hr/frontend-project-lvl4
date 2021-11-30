@@ -25,7 +25,10 @@
       "loading": "Loading...",
       "edit": "Edit",
       "errors": {
-        "load": "Failed to load channels"
+        "load": "Failed to load channels",
+        "new": "Failed to add new channel",
+        "rename": "Failed to rename channel",
+        "remove": "Failed to remove channel"
       }
     },
     "messages": {

@@ -118,7 +118,7 @@ export const channelsSlice = createSlice({
     [addNewChannelActions.failure]: (state) => ({
       ...state,
       status: 'failed',
-      error: 'Add new channel failed',
+      error: 'channels.errors.new',
     }),
     removeChannelRequest: {
       reducer: (state) => ({
@@ -141,7 +141,7 @@ export const channelsSlice = createSlice({
     [removeChannelActions.failure]: (state) => ({
       ...state,
       status: 'failed',
-      error: 'Remove channel failed',
+      error: 'channels.errors.remove',
     }),
     renameChannelRequest: {
       reducer: (state) => ({
@@ -164,7 +164,7 @@ export const channelsSlice = createSlice({
     [renameChannelActions.failure]: (state) => ({
       ...state,
       status: 'failed',
-      error: 'Remove channel failed',
+      error: 'channels.errors.rename',
     }),
     setCurrentChannel: (state, action) => {
       const channelId = Number(action.payload);

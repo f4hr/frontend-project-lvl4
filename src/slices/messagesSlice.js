@@ -62,7 +62,7 @@ export const messagesSlice = createSlice({
     [sendMessageActions.failure]: (state) => ({
       ...state,
       status: 'failed',
-      error: 'Message send failed',
+      error: 'messages.errors.send',
     }),
   },
   extraReducers: (builder) => {
