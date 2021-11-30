@@ -22,16 +22,34 @@ const LanguageSelector = () => {
     i18n.changeLanguage(lang);
   }, [lang]);
 
-  const handleLangSelect = (eventKey, e) => {
-    e.preventDefault();
+  const handleLangSelect = (eventKey) => {
     dispatch(changeLanguage({ lang: eventKey }));
   };
 
   return (
-    <DropdownButton id="dropdown-basic-button" className="mr-2" variant="secondary" title={locales[lang]}>
+    <DropdownButton
+      className="mr-2"
+      variant="secondary"
+      title={locales[lang]}
+      renderMenuOnMount
+    >
       <Dropdown.Header>{t('lang.description')}</Dropdown.Header>
-      <Dropdown.Item as="button" eventKey="ru" onSelect={handleLangSelect} active={lang === 'ru'}>Русский</Dropdown.Item>
-      <Dropdown.Item as="button" eventKey="en" onSelect={handleLangSelect} active={lang === 'en'}>English</Dropdown.Item>
+      <Dropdown.Item
+        as="button"
+        eventKey="ru"
+        onSelect={handleLangSelect}
+        active={lang === 'ru'}
+      >
+        Русский
+      </Dropdown.Item>
+      <Dropdown.Item
+        as="button"
+        eventKey="en"
+        onSelect={handleLangSelect}
+        active={lang === 'en'}
+      >
+        English
+      </Dropdown.Item>
     </DropdownButton>
   );
 };

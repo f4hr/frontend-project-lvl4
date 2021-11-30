@@ -11,13 +11,11 @@ import RemoveChannelModal from './RemoveChannelModal.jsx';
 const MODAL_TYPES_DATA = {
   new: {
     modalTitle: 'newChannel.title',
-    inputTestId: 'add-channel',
     label: 'newChannel.label',
     submitButtonText: 'form.submit',
   },
   rename: {
     modalTitle: 'renameChannel.title',
-    inputTestId: 'rename-channel',
     label: 'renameChannel.label',
     submitButtonText: 'renameChannel.submit',
   },

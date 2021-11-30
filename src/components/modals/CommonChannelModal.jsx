@@ -18,7 +18,6 @@ const CommonChannelModal = ({
   const inputRef = useRef();
   const {
     modalTitle,
-    inputTestId,
     label,
     submitButtonText,
   } = modalData;
@@ -69,7 +68,6 @@ const CommonChannelModal = ({
                 type="text"
                 name="name"
                 value={values.name}
-                data-testid={inputTestId}
                 placeholder={t(label)}
                 aria-label={t(label)}
                 ref={inputRef}
