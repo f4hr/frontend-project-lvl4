@@ -14,6 +14,9 @@ const Messages = () => {
     allIds,
     status,
   } = useSelector((state) => state.messages);
+  const currentChannelMessages = allIds
+    .map((id) => byId[id])
+    .filter(({ channelId }) => channelId === currentChannelId);
 
   if (status === 'failed' || channelsStatus === 'failed') {
     return <div>{t('messages.errors.load')}</div>;
@@ -23,17 +26,9 @@ const Messages = () => {
     return <div>{t('messages.loading')}</div>;
   }
 
-  const filteredMessages = allIds
-    .map((id) => byId[id])
-    .filter(({ channelId }) => channelId === currentChannelId);
-
-  if (filteredMessages.length === 0) {
-    return <div>{t('messages.noMessages')}</div>;
-  }
-
   return (
     <ul className="list-unstyled text-break">
-      {filteredMessages.map(({ id, username, body }) => (
+      {currentChannelMessages.map(({ id, username, body }) => (
         <li key={id}>
           <b>{`${username}: `}</b>
           {censorship ? filter.clean(body) : body}
