@@ -3,7 +3,7 @@
 import { keyBy, omit, findKey } from 'lodash';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import routes from '../../routes.js';
+import routes from '../routes.js';
 
 const initialState = {
   byId: {},

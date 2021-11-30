@@ -2,10 +2,10 @@
 
 import { configureStore } from '@reduxjs/toolkit';
 import socketMiddleware from '../middlewares/socketMiddleware.js';
-import appReducer from './appSlice.js';
-import channelsReducer from '../components/chat/channelsSlice.js';
-import messagesReducer from '../components/chat/messagesSlice.js';
-import modalsReducer from '../components/modals/modalsSlice.js';
+import appReducer from '../slices/appSlice.js';
+import channelsReducer from '../slices/channelsSlice.js';
+import messagesReducer from '../slices/messagesSlice.js';
+import modalsReducer from '../slices/modalsSlice.js';
 
 export default (socketClient) => configureStore({
   reducer: {

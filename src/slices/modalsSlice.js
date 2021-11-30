@@ -5,7 +5,7 @@ import {
   addNewChannelActions,
   removeChannelActions,
   renameChannelActions,
-} from '../chat/channelsSlice.js';
+} from './channelsSlice.js';
 
 const initialState = {
   type: null,

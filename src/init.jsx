@@ -10,11 +10,11 @@ import App from './app/App.jsx';
 import {
   actions as messagesActions,
   serverActions as messagesServerActions,
-} from './components/chat/messagesSlice.js';
+} from './slices/messagesSlice.js';
 import {
   actions as channelsActions,
   serverActions as channelsServerActions,
-} from './components/chat/channelsSlice.js';
+} from './slices/channelsSlice.js';
 
 const init = async (socketClient) => {
   if (process.env.NODE_ENV !== 'production') {

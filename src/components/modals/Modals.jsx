@@ -3,7 +3,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal } from 'react-bootstrap';
-import { closeModal } from './modalsSlice.js';
+import { closeModal } from '../../slices/modalsSlice.js';
 import NewChannelModal from './NewChannelModal.jsx';
 import RenameChannelModal from './RenameChannelModal.jsx';
 import RemoveChannelModal from './RemoveChannelModal.jsx';

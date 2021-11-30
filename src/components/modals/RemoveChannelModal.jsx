@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { useSelector, useDispatch } from 'react-redux';
 import { Modal, Button } from 'react-bootstrap';
 import { toast } from 'react-toastify';
-import { removeChannelRequest } from '../chat/channelsSlice.js';
+import { removeChannelRequest } from '../../slices/channelsSlice.js';
 
 const RemoveChannelModal = ({ handleClose, channelId }) => {
   const { t } = useTranslation();

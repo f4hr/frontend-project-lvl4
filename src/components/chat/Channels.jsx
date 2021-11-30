@@ -10,8 +10,8 @@ import {
   Dropdown,
 } from 'react-bootstrap';
 import { toast } from 'react-toastify';
-import { setCurrentChannel } from './channelsSlice.js';
-import { openModal } from '../modals/modalsSlice.js';
+import { setCurrentChannel } from '../../slices/channelsSlice.js';
+import { openModal } from '../../slices/modalsSlice.js';
 
 const Channels = () => {
   const { t } = useTranslation();

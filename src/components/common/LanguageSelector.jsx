@@ -7,7 +7,7 @@ import {
   Dropdown,
   DropdownButton,
 } from 'react-bootstrap';
-import { changeLanguage } from '../../app/appSlice.js';
+import { changeLanguage } from '../../slices/appSlice.js';
 
 const LanguageSelector = () => {
   const { t, i18n } = useTranslation();

@@ -4,7 +4,7 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
-import { addNewChannel } from '../chat/channelsSlice.js';
+import { addNewChannel } from '../../slices/channelsSlice.js';
 import CommonChannelModal from './CommonChannelModal.jsx';
 
 const NewChannelModal = ({ handleClose, modalData }) => {

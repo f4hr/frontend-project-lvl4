@@ -11,8 +11,8 @@ import {
 } from 'react-bootstrap';
 import { Scrollbars } from 'react-custom-scrollbars';
 import { GoPlus } from 'react-icons/go';
-import { setInitialState } from './channelsSlice.js';
-import { openModal } from '../modals/modalsSlice.js';
+import { setInitialState } from '../../slices/channelsSlice.js';
+import { openModal } from '../../slices/modalsSlice.js';
 import Channels from './Channels.jsx';
 import Messages from './Messages.jsx';
 import NewMessageForm from './NewMessageForm.jsx';

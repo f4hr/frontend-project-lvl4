@@ -7,7 +7,7 @@ import { Form, Button } from 'react-bootstrap';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import useAuth from '../../hooks/index.jsx';
-import { sendMessage } from './messagesSlice.js';
+import { sendMessage } from '../../slices/messagesSlice.js';
 
 const NewMessageForm = () => {
   const { t } = useTranslation();
