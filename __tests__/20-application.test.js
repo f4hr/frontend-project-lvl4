@@ -232,6 +232,12 @@ describe('chat', () => {
     expect(await screen.findByText(/Канал удалён/i)).toBeInTheDocument();
     expect(screen.queryByText(/new test channel/i)).not.toBeInTheDocument();
   });
+
+  test('change language', async () => {
+    userEvent.click(await screen.findByRole('button', { name: /English/i }));
+
+    expect(await screen.findByLabelText(/New message/i)).toBeInTheDocument();
+  });
 });
 
 describe('toastr check error', () => {
