@@ -29,7 +29,6 @@ export const renameChannelActions = {
   failure: 'renameChannelFailure',
 };
 
-// FIXME return value
 const getAuthHeader = () => {
   const userId = JSON.parse(localStorage.getItem('userId'));
 
@@ -37,7 +36,7 @@ const getAuthHeader = () => {
     return { Authorization: `Bearer ${userId.token}` };
   }
 
-  return {};
+  return null;
 };
 
 export const setInitialState = createAsyncThunk(
