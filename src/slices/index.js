@@ -10,6 +10,6 @@ const actions = {
   ...channelActions,
   ...messageActions,
   ...modalActions,
-}
+};
 
 export default actions;
