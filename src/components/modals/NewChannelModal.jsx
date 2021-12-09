@@ -1,20 +1,15 @@
 // @ts-check
 
 import React from 'react';
-import { useDispatch } from 'react-redux';
-import { useTranslation } from 'react-i18next';
-import { toast } from 'react-toastify';
-import { addNewChannel } from '../../slices/channelsSlice.js';
+import { useSocket } from '../../hooks/index.jsx';
 import CommonChannelModal from './CommonChannelModal.jsx';
 
 const NewChannelModal = ({ handleClose, modalData }) => {
-  const dispatch = useDispatch();
-  const { t } = useTranslation();
   const initialValues = { name: '' };
+  const { addNewChannel } = useSocket();
 
   const handleSubmit = (name) => {
-    dispatch(addNewChannel({ name }));
-    toast.success(t('newChannel.success'));
+    addNewChannel({ name });
   };
 
   return (

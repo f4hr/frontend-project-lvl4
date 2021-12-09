@@ -7,8 +7,8 @@ import { Form, Col, Button } from 'react-bootstrap';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
-import useAuth from '../../hooks/index.jsx';
-import routes from '../../routes';
+import { useAuth } from '../../hooks/index.jsx';
+import routes from '../../routes.js';
 
 const SignupForm = () => {
   const { t } = useTranslation();
@@ -22,10 +22,10 @@ const SignupForm = () => {
 
   const handleSignup = async (values, { setSubmitting, setFieldError }) => {
     try {
-      const res = await axios.post(routes.signupPath(), values);
+      const res = await axios.post(routes.apiSignupPath(), values);
       localStorage.setItem('userId', JSON.stringify(res.data));
       auth.logIn();
-      history.replace({ pathname: '/' });
+      history.replace({ pathname: routes.homePath() });
     } catch (err) {
       if (err.isAxiosError) {
         const errorMsg = (err.response.status === 409)

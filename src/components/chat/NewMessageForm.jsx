@@ -2,20 +2,20 @@
 
 import React, { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Form, Button } from 'react-bootstrap';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import useAuth from '../../hooks/index.jsx';
-import { sendMessage } from '../../slices/messagesSlice.js';
+import filter from 'leo-profanity';
+import { useAuth, useSocket } from '../../hooks/index.jsx';
 
 const NewMessageForm = () => {
   const { t } = useTranslation();
-  const dispatch = useDispatch();
   const { currentChannelId } = useSelector((state) => state.channels);
   const { status } = useSelector((state) => state.messages);
   const inputRef = useRef();
   const { username } = useAuth();
+  const { sendMessage } = useSocket();
   const initialValues = { message: '' };
 
   useEffect(() => {
@@ -27,9 +27,9 @@ const NewMessageForm = () => {
     const message = {
       channelId: currentChannelId,
       username,
-      body,
+      body: filter.clean(body),
     };
-    dispatch(sendMessage(message));
+    sendMessage(message);
 
     setSubmitting(false);
     resetForm({ values: initialValues });

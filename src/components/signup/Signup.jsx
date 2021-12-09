@@ -4,6 +4,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Container, Row, Col } from 'react-bootstrap';
+import routes from '../../routes.js';
 import SignupForm from './SignupForm.jsx';
 
 const Signup = () => {
@@ -17,7 +18,7 @@ const Signup = () => {
           <SignupForm />
           <p className="mt-3 mb-0 text-center">
             {`${t('signUp.logInText')} `}
-            <Link to="/login">{t('signUp.logInLink')}</Link>
+            <Link to={routes.loginPath()}>{t('signUp.logInLink')}</Link>
             .
           </p>
         </Col>

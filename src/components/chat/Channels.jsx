@@ -10,8 +10,8 @@ import {
   Dropdown,
 } from 'react-bootstrap';
 import { toast } from 'react-toastify';
-import { setCurrentChannel } from '../../slices/channelsSlice.js';
 import { openModal } from '../../slices/modalsSlice.js';
+import { setCurrentChannel } from '../../slices/channelsSlice.js';
 
 const Channels = () => {
   const { t } = useTranslation();
@@ -29,7 +29,7 @@ const Channels = () => {
   }
 
   if (status === 'failed') {
-    toast.error(t(error));
+    toast.error(t(error.message));
 
     return <div>{t('channels.errors.load')}</div>;
   }

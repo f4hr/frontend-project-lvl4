@@ -22,7 +22,7 @@ export const messagesSlice = createSlice({
   initialState,
   reducers: {
     newMessage: (state, action) => {
-      const { allIds, byId } = state;
+      const { allIds } = state;
       const {
         id,
         channelId,
@@ -35,64 +35,39 @@ export const messagesSlice = createSlice({
         username,
         body,
       };
-      return {
-        ...state,
-        allIds: _.union(allIds, [id]),
-        byId: { ...byId, [id]: newMessage },
-      };
+
+      state.allIds = _.union(allIds, [id]);
+      state.byId[id] = newMessage;
     },
-    sendMessage: {
-      reducer: (state) => ({
-        ...state,
-        status: 'pending',
-      }),
-      prepare: (message) => ({
-        payload: {
-          type: 'socket',
-          scope: 'messages',
-          actions: sendMessageActions,
-          body: message,
-        },
-      }),
+    sendMessage: (state) => {
+      state.status = 'pending';
     },
-    [sendMessageActions.success]: (state) => ({
-      ...state,
-      status: 'succeeded',
-    }),
-    [sendMessageActions.failure]: (state) => ({
-      ...state,
-      status: 'failed',
-      error: 'messages.errors.send',
-    }),
+    [sendMessageActions.success]: (state) => {
+      state.status = 'succeeded';
+    },
+    [sendMessageActions.failure]: (state) => {
+      state.status = 'failed';
+      state.error = { message: 'messages.errors.send' };
+    },
   },
   extraReducers: (builder) => {
     builder
       .addCase(setInitialState.fulfilled, (state, action) => {
         const { messages } = action.payload;
-        return {
-          ...state,
-          allIds: messages.map(({ id }) => id),
-          byId: _.keyBy(messages, 'id'),
-        };
+
+        state.allIds = messages.map(({ id }) => id);
+        state.byId = _.keyBy(messages, 'id');
       })
       .addCase(`channels/${removeChannelActions.request}`, (state, action) => {
         const { id } = action.payload;
         const filteredById = _.pickBy(state.byId, ({ channelId }) => channelId !== id);
 
-        return {
-          ...state,
-          allIds: _.keys(filteredById).map((key) => Number(key)),
-          byId: filteredById,
-        };
+        state.allIds = _.keys(filteredById).map((key) => Number(key));
+        state.byId = filteredById;
       });
   },
 });
 
-export const serverActions = [
-  'newMessage',
-];
-
 export const { actions } = messagesSlice;
-export const { sendMessage } = messagesSlice.actions;
 
 export default messagesSlice.reducer;

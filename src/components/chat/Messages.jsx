@@ -1,14 +1,12 @@
 // @ts-check
 
 import React from 'react';
-import filter from 'leo-profanity';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 
 const Messages = () => {
   const { t } = useTranslation();
-  const { censorship } = useSelector((state) => state.app);
   const { currentChannelId, status: channelsStatus } = useSelector((state) => state.channels);
   const {
     byId,
@@ -21,7 +19,7 @@ const Messages = () => {
     .filter(({ channelId }) => channelId === currentChannelId);
 
   if (status === 'failed' || channelsStatus === 'failed') {
-    if (status === 'failed') toast.error(t(error));
+    if (status === 'failed') toast.error(t(error.message));
 
     return <div>{t('messages.errors.load')}</div>;
   }
@@ -31,7 +29,7 @@ const Messages = () => {
       {currentChannelMessages.map(({ id, username, body }) => (
         <li key={id}>
           <b>{`${username}: `}</b>
-          {censorship ? filter.clean(body) : body}
+          {body}
         </li>
       ))}
     </ul>
