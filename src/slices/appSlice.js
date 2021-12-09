@@ -6,6 +6,7 @@ const initialState = {
   lang: 'ru',
 };
 
+/* eslint-disable no-param-reassign */
 export const appSlice = createSlice({
   name: 'app',
   initialState,

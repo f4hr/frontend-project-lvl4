@@ -63,6 +63,7 @@ export const setInitialState = createAsyncThunk(
   },
 );
 
+/* eslint-disable no-param-reassign */
 export const channelsSlice = createSlice({
   name: 'channels',
   initialState,

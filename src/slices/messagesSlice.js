@@ -17,6 +17,7 @@ const sendMessageActions = {
   failure: 'sendMessageFailure',
 };
 
+/* eslint-disable no-param-reassign */
 export const messagesSlice = createSlice({
   name: 'messages',
   initialState,

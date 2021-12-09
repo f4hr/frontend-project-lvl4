@@ -13,6 +13,7 @@ const initialState = {
   meta: null,
 };
 
+/* eslint-disable no-param-reassign */
 export const modalsSlice = createSlice({
   name: 'modals',
   initialState,
