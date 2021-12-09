@@ -31,6 +31,7 @@ const setUpViews = (app) => {
       pug: Pug,
     },
     defaultContext: {
+      getTitle: () => 'Hexlet Chat',
       assetPath: (filename) => `${domain}/assets/${filename}`,
     },
     templates: path.join(__dirname, 'views'),
