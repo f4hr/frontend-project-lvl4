@@ -41,5 +41,5 @@ rules:
   functional/no-try-statement: 0
   functional/no-throw-statement: 0
   no-underscore-dangle: [2, { "allow": ["__filename", "__dirname"] }],
-  no-param-reassign: ['error', { props: true, ignorePropertyModificationsFor: ['state'] }]
+  no-param-reassign: ['error', { "props": true, "ignorePropertyModificationsFor": ["state"] }]
   testing-library/no-debug: 0
