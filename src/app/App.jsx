@@ -19,19 +19,19 @@ import Chat from '../components/chat/Chat.jsx';
 import Modals from '../components/modals/Modals.jsx';
 import Signup from '../components/signup/Signup.jsx';
 
-const ChatRoute = () => {
+function PrivateRoute({ path, exact, children }) {
   const { loggedIn } = useAuth();
 
   const render = ({ location }) => {
-    if (loggedIn) return <Chat />;
+    if (loggedIn) return children;
 
     return (
       <Redirect to={{ pathname: routes.loginPath(), state: { from: location } }} />
     );
   };
 
-  return <Route render={render} />;
-};
+  return <Route exact={exact} path={path} render={render} />;
+}
 
 function NoMatch() {
   const { t } = useTranslation();
@@ -60,9 +60,9 @@ const App = () => (
             <Route path={routes.signupPath()}>
               <Signup />
             </Route>
-            <Route exact path={routes.homePath()}>
-              <ChatRoute />
-            </Route>
+            <PrivateRoute exact path={routes.homePath()}>
+              <Chat />
+            </PrivateRoute>
             <Route path="*">
               <NoMatch />
             </Route>
