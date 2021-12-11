@@ -4,41 +4,51 @@ import React, { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { Modal, Form, Button } from 'react-bootstrap';
+import { toast } from 'react-toastify';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
+import { channelNamesSelector } from '../../slices/channelsSlice';
 
 const CommonChannelModal = ({
   handleFormSubmit,
-  handleClose,
+  closeModal,
   initialValues,
   modalData,
 }) => {
   const { t } = useTranslation();
-  const { byId, allIds, status } = useSelector((state) => state.channels);
+  const channelNames = useSelector(channelNamesSelector);
   const inputRef = useRef();
   const {
     modalTitle,
     label,
     submitButtonText,
+    success,
+    error,
   } = modalData;
-
-  const getChannelNames = () => allIds
-    .map((id) => byId[id].name);
 
   useEffect(() => {
     inputRef.current.select();
   }, []);
 
-  const handleChannelFormSubmit = (values, { setSubmitting }) => {
+  const handleChannelFormSubmit = async (values, { setSubmitting }) => {
     const body = values.name.trim();
 
-    handleFormSubmit(body);
-    setSubmitting(false);
+    try {
+      setSubmitting(true);
+      await handleFormSubmit(body);
+      setSubmitting(false);
+      closeModal();
+      toast.success(t(success));
+    } catch {
+      setSubmitting(false);
+      closeModal();
+      toast.error(t(error));
+    }
   };
 
   const schema = Yup.object({
     name: Yup.string()
-      .notOneOf(getChannelNames(), t('channelForm.errors.unique'))
+      .notOneOf(channelNames, t('channelForm.errors.unique'))
       .trim(t('form.errors.whitespace'))
       .required(t('form.errors.required'))
       .strict(),
@@ -55,6 +65,7 @@ const CommonChannelModal = ({
       {({
         handleSubmit,
         handleChange,
+        isSubmitting,
         values,
         errors,
       }) => (
@@ -72,21 +83,18 @@ const CommonChannelModal = ({
                 aria-label={t(label)}
                 ref={inputRef}
                 onChange={handleChange}
-                readOnly={status === 'pending'}
+                disabled={isSubmitting}
                 isInvalid={!!errors.name}
               />
               <Form.Control.Feedback type="invalid">{errors.name}</Form.Control.Feedback>
             </Form.Group>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose}>{t('form.cancel')}</Button>
+            <Button variant="secondary" onClick={closeModal}>{t('form.cancel')}</Button>
             <Button
               type="submit"
               variant="primary"
-              disabled={
-                values.name === ''
-                || status === 'pending'
-              }
+              disabled={values.name === '' || isSubmitting}
             >
               {t(submitButtonText)}
             </Button>

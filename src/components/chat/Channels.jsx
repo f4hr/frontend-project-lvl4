@@ -9,33 +9,21 @@ import {
   ButtonGroup,
   Dropdown,
 } from 'react-bootstrap';
-import { toast } from 'react-toastify';
+import {
+  actions as channelActions,
+  channelsSelectors,
+  currentChannelSelector,
+} from '../../slices/channelsSlice.js';
 import { openModal } from '../../slices/modalsSlice.js';
-import { setCurrentChannel } from '../../slices/channelsSlice.js';
 
 const Channels = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const {
-    byId,
-    allIds,
-    currentChannelId,
-    status,
-    error,
-  } = useSelector((state) => state.channels);
-
-  if (status === 'loading') {
-    return <div>{t('channels.loading')}</div>;
-  }
-
-  if (status === 'failed') {
-    toast.error(t(error.message));
-
-    return <div>{t('channels.errors.load')}</div>;
-  }
+  const currentChannelId = useSelector(currentChannelSelector);
+  const channels = useSelector(channelsSelectors.selectAll);
 
   const handleChannelChange = (channelId) => () => {
-    dispatch(setCurrentChannel(channelId));
+    dispatch(channelActions.setCurrentChannel(channelId));
   };
 
   const handleRemoveChannel = (id) => (e) => {
@@ -62,7 +50,7 @@ const Channels = () => {
 
   return (
     <Nav className="flex-column pr-1" variant="pills" activeKey={currentChannelId}>
-      {allIds.map((id) => (
+      {channels.map(({ id, name, removable }) => (
         <Nav.Item key={id} className="w-100">
           <Dropdown className="w-100" as={ButtonGroup}>
             <Button
@@ -71,9 +59,9 @@ const Channels = () => {
               type="button"
               onClick={handleChannelChange(id)}
             >
-              {byId[id].name}
+              {name}
             </Button>
-            {(byId[id].removable)
+            {(removable)
               ? (
                 <>
                   <Dropdown.Toggle

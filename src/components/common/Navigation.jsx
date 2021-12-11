@@ -9,6 +9,7 @@ import {
   Button,
 } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import routes from '../../routes.js';
 import { useAuth } from '../../hooks/index.jsx';
 import LanguageSelector from './LanguageSelector.jsx';
 
@@ -19,14 +20,14 @@ const AuthButton = () => {
   return (
     auth.loggedIn
       ? <Button onClick={auth.logOut} variant="primary">{t('nav.logOut')}</Button>
-      : <Button as={Link} to="/login" variant="primary">{t('nav.logIn')}</Button>
+      : <Button as={Link} to={routes.loginPath()} variant="primary">{t('nav.logIn')}</Button>
   );
 };
 
 const Navigation = () => (
   <Navbar bg="dark" variant="dark" expand="lg" sticky="top" className="shadow">
     <Container fluid>
-      <Navbar.Brand as={Link} to="/">Hexlet Chat</Navbar.Brand>
+      <Navbar.Brand as={Link} to={routes.homePath()}>Hexlet Chat</Navbar.Brand>
       <Nav>
         <LanguageSelector />
         <AuthButton />

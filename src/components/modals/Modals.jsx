@@ -13,11 +13,15 @@ const MODAL_TYPES_DATA = {
     modalTitle: 'newChannel.title',
     label: 'newChannel.label',
     submitButtonText: 'form.submit',
+    success: 'newChannel.success',
+    error: 'channels.errors.new',
   },
   rename: {
     modalTitle: 'renameChannel.title',
     label: 'renameChannel.label',
     submitButtonText: 'renameChannel.submit',
+    success: 'renameChannel.success',
+    error: 'channels.errors.rename',
   },
 };
 
@@ -34,14 +38,14 @@ const Modals = () => {
       case 'new':
         return (
           <NewChannelModal
-            handleClose={handleClose}
+            closeModal={handleClose}
             modalData={MODAL_TYPES_DATA[modalType]}
           />
         );
       case 'rename':
         return (
           <RenameChannelModal
-            handleClose={handleClose}
+            closeModal={handleClose}
             modalData={MODAL_TYPES_DATA[modalType]}
             channelId={meta.channelId}
           />
@@ -49,7 +53,7 @@ const Modals = () => {
       case 'remove':
         return (
           <RemoveChannelModal
-            handleClose={handleClose}
+            closeModal={handleClose}
             channelId={meta.channelId}
           />
         );

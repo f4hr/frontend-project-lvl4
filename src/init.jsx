@@ -3,6 +3,7 @@
 import React from 'react';
 import { I18nextProvider } from 'react-i18next';
 import { Provider as StoreProvider } from 'react-redux';
+import constants from './constants.js';
 import actions from './slices/index.js';
 import RollbarProvider from './providers/RollbarProvider.jsx';
 import SocketProvider from './providers/SocketProvider.jsx';
@@ -17,7 +18,7 @@ const init = async (socketClient) => {
   }
 
   const store = getStore();
-  const i18nInstance = await getI18n({ language: 'ru' });
+  const i18nInstance = await getI18n({ language: constants.LANG });
   const {
     newChannel,
     renameChannel,

@@ -2,41 +2,39 @@
 
 import React, { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import {
   Container,
   Row,
   Col,
   Button,
 } from 'react-bootstrap';
+import { toast } from 'react-toastify';
 import { Scrollbars } from 'react-custom-scrollbars';
 import { GoPlus } from 'react-icons/go';
-import { useAuth } from '../../hooks/index.jsx';
-import { setInitialState } from '../../slices/channelsSlice.js';
+import { setInitialState } from '../../slices/appSlice.js';
 import { openModal } from '../../slices/modalsSlice.js';
 import Channels from './Channels.jsx';
 import Messages from './Messages.jsx';
 import NewMessageForm from './NewMessageForm.jsx';
+import { useAuth } from '../../hooks/index.jsx';
 
 const Chat = () => {
-  const { logOut } = useAuth();
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const { currentChannelId, error } = useSelector((state) => state.channels);
-  const { byId, status } = useSelector((state) => state.messages);
+  const { logOut } = useAuth();
   const scrollbarRef = useRef(null);
 
   useEffect(() => {
-    dispatch(setInitialState());
+    (async () => {
+      try {
+        await dispatch(setInitialState()).unwrap();
+      } catch (err) {
+        logOut();
+        toast.error(t(err.message));
+      }
+    })();
   }, []);
-
-  useEffect(() => {
-    if (error && error.type === 'auth') logOut();
-  }, [error]);
-
-  useEffect(() => {
-    scrollbarRef.current.scrollToBottom();
-  }, [currentChannelId, byId, status]);
 
   const handleNewChannel = () => {
     dispatch(openModal({ type: 'new' }));
@@ -65,7 +63,7 @@ const Chat = () => {
         </Col>
         <Col className="d-flex flex-column h-100 p-3">
           <Scrollbars ref={scrollbarRef}>
-            <Messages />
+            <Messages scrollbar={scrollbarRef} />
           </Scrollbars>
           <NewMessageForm />
         </Col>

@@ -1,73 +1,37 @@
 // @ts-check
 
-import _ from 'lodash';
-import { createSlice } from '@reduxjs/toolkit';
-import { setInitialState, removeChannelActions } from './channelsSlice.js';
+import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
+import { actions as channelActions } from './channelsSlice.js';
+import { setInitialState } from './appSlice.js';
 
-const initialState = {
-  byId: {},
-  allIds: [],
-  status: 'idle',
-  error: null,
-};
-
-const sendMessageActions = {
-  request: 'newMessage',
-  success: 'sendMessageSuccess',
-  failure: 'sendMessageFailure',
-};
+const messagesAdapter = createEntityAdapter();
 
 /* eslint-disable no-param-reassign */
 export const messagesSlice = createSlice({
   name: 'messages',
-  initialState,
+  initialState: messagesAdapter.getInitialState(),
   reducers: {
-    newMessage: (state, action) => {
-      const { allIds } = state;
-      const {
-        id,
-        channelId,
-        username,
-        body,
-      } = action.payload;
-      const newMessage = {
-        id,
-        channelId,
-        username,
-        body,
-      };
-
-      state.allIds = _.union(allIds, [id]);
-      state.byId[id] = newMessage;
-    },
-    sendMessage: (state) => {
-      state.status = 'pending';
-    },
-    [sendMessageActions.success]: (state) => {
-      state.status = 'succeeded';
-    },
-    [sendMessageActions.failure]: (state) => {
-      state.status = 'failed';
-      state.error = { message: 'messages.errors.send' };
-    },
+    newMessage: messagesAdapter.setOne,
   },
   extraReducers: (builder) => {
     builder
       .addCase(setInitialState.fulfilled, (state, action) => {
         const { messages } = action.payload;
 
-        state.allIds = messages.map(({ id }) => id);
-        state.byId = _.keyBy(messages, 'id');
+        messagesAdapter.setAll(state, messages);
       })
-      .addCase(`channels/${removeChannelActions.request}`, (state, action) => {
+      .addCase(channelActions.removeChannel, (state, action) => {
         const { id } = action.payload;
-        const filteredById = _.pickBy(state.byId, ({ channelId }) => channelId !== id);
+        const messagesIds = messagesAdapter.getSelectors()
+          .selectAll(state)
+          .filter(({ channelId }) => channelId !== id);
 
-        state.allIds = _.keys(filteredById).map((key) => Number(key));
-        state.byId = filteredById;
+        messagesAdapter.setAll(state, messagesIds);
       });
   },
 });
+
+export const messagesSelectors = messagesAdapter.getSelectors((state) => state.messages);
 
 export const { actions } = messagesSlice;
 

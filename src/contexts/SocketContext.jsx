@@ -3,10 +3,10 @@
 import { createContext } from 'react';
 
 const SocketContext = createContext({
-  sendMessage: () => {},
-  addNewChannel: () => {},
-  renameChannel: () => {},
-  removeChannel: () => {},
+  newMessage: async () => {},
+  newChannel: async () => {},
+  renameChannel: async () => {},
+  removeChannel: async () => {},
 });
 
 export default SocketContext;

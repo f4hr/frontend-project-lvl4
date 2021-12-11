@@ -6,14 +6,13 @@ import { useTranslation } from 'react-i18next';
 import { Form, Col, Button } from 'react-bootstrap';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import axios from 'axios';
 import { useAuth } from '../../hooks/index.jsx';
 import routes from '../../routes.js';
 
 const LoginForm = () => {
   const { t } = useTranslation();
   const history = useHistory();
-  const auth = useAuth();
+  const { logIn } = useAuth();
   const inputRef = useRef();
 
   useEffect(() => {
@@ -22,21 +21,12 @@ const LoginForm = () => {
 
   const handleLogin = async (values, { setSubmitting, setFieldError }) => {
     try {
-      const res = await axios.post(routes.apiLoginPath(), values);
-      localStorage.setItem('userId', JSON.stringify(res.data));
-      auth.logIn();
+      setSubmitting(true);
+      await logIn(values);
       history.replace({ pathname: routes.homePath() });
     } catch (err) {
-      if (err.isAxiosError) {
-        const errorMsg = (err.response.status === 401)
-          ? t('logInForm.errors.auth')
-          : t('errors.network');
-        setFieldError('password', errorMsg);
-        setSubmitting(false);
-        inputRef.current.select();
-        return;
-      }
-      throw err;
+      setFieldError('username', t('logInForm.errors.auth'));
+      setSubmitting(false);
     }
   };
 
@@ -73,7 +63,7 @@ const LoginForm = () => {
               ref={inputRef}
               onChange={handleChange}
               isInvalid={!!errors.username}
-              readOnly={isSubmitting}
+              disabled={isSubmitting}
             />
             <Form.Control.Feedback type="invalid">{errors.username}</Form.Control.Feedback>
           </Form.Group>
@@ -85,7 +75,7 @@ const LoginForm = () => {
               value={values.password}
               onChange={handleChange}
               isInvalid={!!errors.password}
-              readOnly={isSubmitting}
+              disabled={isSubmitting}
             />
             <Form.Control.Feedback type="invalid">{errors.password}</Form.Control.Feedback>
           </Form.Group>

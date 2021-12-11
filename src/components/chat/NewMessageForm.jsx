@@ -7,49 +7,54 @@ import { Form, Button } from 'react-bootstrap';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import filter from 'leo-profanity';
+import { toast } from 'react-toastify';
 import { useAuth, useSocket } from '../../hooks/index.jsx';
+import { currentChannelSelector } from '../../slices/channelsSlice.js';
 
 const NewMessageForm = () => {
   const { t } = useTranslation();
-  const { currentChannelId } = useSelector((state) => state.channels);
-  const { status } = useSelector((state) => state.messages);
+  const currentChannelId = useSelector(currentChannelSelector);
   const inputRef = useRef();
-  const { username } = useAuth();
-  const { sendMessage } = useSocket();
-  const initialValues = { message: '' };
+  const { userId: username } = useAuth();
+  const { newMessage } = useSocket();
 
   useEffect(() => {
     inputRef.current.focus();
   }, [currentChannelId]);
 
-  const handleMessageSend = (values, { resetForm, setSubmitting }) => {
+  const handleMessageSend = async (values, { resetForm, setSubmitting }) => {
     const body = values.message.trim();
     const message = {
       channelId: currentChannelId,
       username,
       body: filter.clean(body),
     };
-    sendMessage(message);
 
-    setSubmitting(false);
-    resetForm({ values: initialValues });
+    try {
+      setSubmitting(true);
+      await newMessage(message);
+      setSubmitting(false);
+      resetForm();
+    } catch (err) {
+      toast.error(t('messages.errors.send'));
+      setSubmitting(false);
+    }
   };
 
   const schema = Yup.object({
-    message: Yup.string()
-      .trim(t('form.errors.whitespace'))
-      .required(t('form.errors.required')),
+    message: Yup.string().trim().required(),
   });
 
   return (
     <Formik
       validationSchema={schema}
       onSubmit={handleMessageSend}
-      initialValues={initialValues}
+      initialValues={{ message: '' }}
     >
       {({
         handleSubmit,
         handleChange,
+        isSubmitting,
         values,
         errors,
       }) => (
@@ -63,7 +68,7 @@ const NewMessageForm = () => {
               aria-label={t('newMessageForm.label')}
               ref={inputRef}
               onChange={handleChange}
-              readOnly={status === 'pending'}
+              disabled={isSubmitting}
             />
           </Form.Group>
           <Button
@@ -72,7 +77,7 @@ const NewMessageForm = () => {
             disabled={
               !!errors.message
               || values.message === ''
-              || status === 'pending'
+              || isSubmitting
             }
           >
             {t('form.submit')}

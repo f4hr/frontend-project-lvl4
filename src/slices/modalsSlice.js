@@ -1,11 +1,6 @@
 // @ts-check
 
 import { createSlice } from '@reduxjs/toolkit';
-import {
-  addNewChannelActions,
-  renameChannelActions,
-  removeChannelActions,
-} from './channelsSlice.js';
 
 const initialState = {
   type: null,
@@ -26,18 +21,6 @@ export const modalsSlice = createSlice({
     closeModal: (state) => {
       state.isOpened = false;
     },
-  },
-  extraReducers: (builder) => {
-    builder
-      .addCase(`channels/${addNewChannelActions.success}`, (state) => {
-        state.isOpened = false;
-      })
-      .addCase(`channels/${renameChannelActions.success}`, (state) => {
-        state.isOpened = false;
-      })
-      .addCase(`channels/${removeChannelActions.success}`, (state) => {
-        state.isOpened = false;
-      });
   },
 });
 

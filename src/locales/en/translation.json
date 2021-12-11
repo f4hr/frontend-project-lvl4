@@ -3,7 +3,7 @@
     "errors": {
       "auth": "Authorization error",
       "network": "Network error",
-      "unknown": "Error"
+      "server": "Server error"
     },
     "form": {
       "cancel": "Cancel",
@@ -22,20 +22,15 @@
       "newChannel": "Add new channel",
       "removeChannel": "Remove",
       "renameChannel": "Rename",
-      "loading": "Loading...",
       "edit": "Edit",
       "errors": {
-        "load": "Failed to load channels",
         "new": "Failed to add new channel",
         "rename": "Failed to rename channel",
         "remove": "Failed to remove channel"
       }
     },
     "messages": {
-      "loading": "Loading...",
-      "noMessages": "Channel is empty",
       "errors": {
-        "load": "Failed to load messages",
         "send": "Failed to send message"
       }
     },

@@ -1,19 +1,32 @@
 // @ts-check
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { Modal, Button } from 'react-bootstrap';
+import { toast } from 'react-toastify';
 import { useSocket } from '../../hooks/index.jsx';
+import { channelsSelectors } from '../../slices/channelsSlice';
 
-const RemoveChannelModal = ({ handleClose, channelId }) => {
+const RemoveChannelModal = ({ closeModal, channelId }) => {
   const { t } = useTranslation();
-  const { byId, status } = useSelector((state) => state.channels);
+  const [isSubmitting, setSubmitting] = useState(false);
+  const channels = useSelector(channelsSelectors.selectEntities);
   const { removeChannel } = useSocket();
-  const name = (byId[channelId]) ? byId[channelId].name : '';
+  const name = (channels[channelId]) ? channels[channelId].name : '';
 
-  const handleRemoveChannel = () => {
-    removeChannel({ id: channelId });
+  const handleRemoveChannel = async () => {
+    try {
+      setSubmitting(true);
+      await removeChannel({ id: channelId });
+      setSubmitting(false);
+      closeModal();
+      toast.success(t('removeChannel.success'));
+    } catch (err) {
+      setSubmitting(false);
+      closeModal();
+      toast.error(t('channels.errors.remove'));
+    }
   };
 
   return (
@@ -23,11 +36,11 @@ const RemoveChannelModal = ({ handleClose, channelId }) => {
       </Modal.Header>
       <Modal.Body>{t('removeChannel.description', { name })}</Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={handleClose}>{t('form.cancel')}</Button>
+        <Button variant="secondary" onClick={closeModal}>{t('form.cancel')}</Button>
         <Button
           type="submit"
           variant="danger"
-          disabled={status === 'pending'}
+          disabled={isSubmitting}
           onClick={handleRemoveChannel}
         >
           {t('removeChannel.submit')}

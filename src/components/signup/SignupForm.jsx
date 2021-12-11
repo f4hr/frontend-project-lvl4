@@ -6,14 +6,13 @@ import { useHistory } from 'react-router-dom';
 import { Form, Col, Button } from 'react-bootstrap';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import axios from 'axios';
 import { useAuth } from '../../hooks/index.jsx';
 import routes from '../../routes.js';
 
 const SignupForm = () => {
   const { t } = useTranslation();
   const history = useHistory();
-  const auth = useAuth();
+  const { signUp } = useAuth();
   const inputRef = useRef();
 
   useEffect(() => {
@@ -22,21 +21,12 @@ const SignupForm = () => {
 
   const handleSignup = async (values, { setSubmitting, setFieldError }) => {
     try {
-      const res = await axios.post(routes.apiSignupPath(), values);
-      localStorage.setItem('userId', JSON.stringify(res.data));
-      auth.logIn();
+      setSubmitting(true);
+      await signUp(values);
       history.replace({ pathname: routes.homePath() });
     } catch (err) {
-      if (err.isAxiosError) {
-        const errorMsg = (err.response.status === 409)
-          ? t('signUpForm.errors.unique')
-          : t('errors.network');
-        setFieldError('username', errorMsg);
-        setSubmitting(false);
-        inputRef.current.select();
-        return;
-      }
-      throw err;
+      setFieldError('username', t('signUpForm.errors.unique'));
+      setSubmitting(false);
     }
   };
 
@@ -85,7 +75,7 @@ const SignupForm = () => {
               onBlur={handleBlur}
               isInvalid={touched.username && !!errors.username}
               isValid={touched.username && !errors.username}
-              readOnly={isSubmitting}
+              disabled={isSubmitting}
             />
             <Form.Control.Feedback type="invalid">{errors.username}</Form.Control.Feedback>
           </Form.Group>
@@ -99,7 +89,7 @@ const SignupForm = () => {
               onBlur={handleBlur}
               isInvalid={touched.password && !!errors.password}
               isValid={touched.password && !errors.password}
-              readOnly={isSubmitting}
+              disabled={isSubmitting}
             />
             <Form.Control.Feedback type="invalid">{errors.password}</Form.Control.Feedback>
           </Form.Group>
@@ -113,7 +103,7 @@ const SignupForm = () => {
               onBlur={handleBlur}
               isInvalid={touched.confirmPassword && !!errors.confirmPassword}
               isValid={touched.confirmPassword && !errors.confirmPassword}
-              readOnly={isSubmitting}
+              disabled={isSubmitting}
             />
             <Form.Control.Feedback type="invalid">{errors.confirmPassword}</Form.Control.Feedback>
           </Form.Group>

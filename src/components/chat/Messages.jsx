@@ -1,28 +1,19 @@
 // @ts-check
 
-import React from 'react';
-import { useTranslation } from 'react-i18next';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
+import { currentChannelSelector } from '../../slices/channelsSlice.js';
+import { messagesSelectors } from '../../slices/messagesSlice.js';
 
-const Messages = () => {
-  const { t } = useTranslation();
-  const { currentChannelId, status: channelsStatus } = useSelector((state) => state.channels);
-  const {
-    byId,
-    allIds,
-    status,
-    error,
-  } = useSelector((state) => state.messages);
-  const currentChannelMessages = allIds
-    .map((id) => byId[id])
-    .filter(({ channelId }) => channelId === currentChannelId);
+const Messages = ({ scrollbar }) => {
+  const messages = useSelector(messagesSelectors.selectAll);
+  const currentChannelId = useSelector(currentChannelSelector);
+  const currentChannelMessages = messages.filter(({ channelId }) => channelId === currentChannelId);
+  const messagesCount = currentChannelMessages.length;
 
-  if (status === 'failed' || channelsStatus === 'failed') {
-    if (status === 'failed') toast.error(t(error.message));
-
-    return <div>{t('messages.errors.load')}</div>;
-  }
+  useEffect(() => {
+    scrollbar.current.scrollToBottom();
+  }, [scrollbar, messagesCount]);
 
   return (
     <ul className="list-unstyled text-break">
