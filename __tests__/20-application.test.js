@@ -254,7 +254,6 @@ describe('toastr check error', () => {
       userEvent.type(await screen.findByLabelText(/Пароль/i), 'pass');
       userEvent.click(await screen.findByRole('button', { name: /Войти/i }));
     } catch (e) {
-      // в компоненте может быть необработанная ошибка
       console.error(e);
     }
     expect(await screen.findByText(/Ошибка соединения/i)).toBeInTheDocument();
