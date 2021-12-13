@@ -62,6 +62,7 @@ const SignupForm = () => {
         values,
         touched,
         errors,
+        dirty,
       }) => (
         <Form noValidate onSubmit={handleSubmit}>
           <Form.Group controlId="username">
@@ -113,7 +114,7 @@ const SignupForm = () => {
               variant="primary"
               size="lg"
               block
-              disabled={isSubmitting || !isValid}
+              disabled={!dirty || isSubmitting || !isValid}
             >
               {t('signUpForm.submit')}
             </Button>

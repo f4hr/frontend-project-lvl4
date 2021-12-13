@@ -7,6 +7,7 @@ import { Modal, Form, Button } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
+import { some } from 'lodash';
 import { channelNamesSelector } from '../../slices/channelsSlice';
 
 const CommonChannelModal = ({
@@ -56,11 +57,11 @@ const CommonChannelModal = ({
 
   return (
     <Formik
-      validateOnChange={false}
       validateOnBlur={false}
       validationSchema={schema}
       onSubmit={handleChannelFormSubmit}
       initialValues={initialValues}
+      validateOnMount
     >
       {({
         handleSubmit,
@@ -68,6 +69,7 @@ const CommonChannelModal = ({
         isSubmitting,
         values,
         errors,
+        isValid,
       }) => (
         <Form noValidate onSubmit={handleSubmit}>
           <Modal.Header closeButton>
@@ -84,7 +86,7 @@ const CommonChannelModal = ({
                 ref={inputRef}
                 onChange={handleChange}
                 disabled={isSubmitting}
-                isInvalid={!!errors.name}
+                isInvalid={!isValid}
               />
               <Form.Control.Feedback type="invalid">{errors.name}</Form.Control.Feedback>
             </Form.Group>
@@ -94,7 +96,7 @@ const CommonChannelModal = ({
             <Button
               type="submit"
               variant="primary"
-              disabled={values.name === '' || isSubmitting}
+              disabled={!isValid || isSubmitting}
             >
               {t(submitButtonText)}
             </Button>

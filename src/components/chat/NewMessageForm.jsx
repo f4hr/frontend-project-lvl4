@@ -56,7 +56,7 @@ const NewMessageForm = () => {
         handleChange,
         isSubmitting,
         values,
-        errors,
+        dirty,
       }) => (
         <Form className="d-flex" noValidate onSubmit={handleSubmit}>
           <Form.Group className="flex-grow-1 mb-0 mr-3" controlId="message">
@@ -74,11 +74,7 @@ const NewMessageForm = () => {
           <Button
             type="submit"
             variant="primary"
-            disabled={
-              !!errors.message
-              || values.message === ''
-              || isSubmitting
-            }
+            disabled={!dirty || isSubmitting}
           >
             {t('form.submit')}
           </Button>
