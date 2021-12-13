@@ -7,7 +7,6 @@ import { Modal, Form, Button } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import { some } from 'lodash';
 import { channelNamesSelector } from '../../slices/channelsSlice';
 
 const CommonChannelModal = ({
