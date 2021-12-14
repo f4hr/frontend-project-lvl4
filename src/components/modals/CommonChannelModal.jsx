@@ -84,8 +84,10 @@ const CommonChannelModal = ({
                 aria-label={t(label)}
                 ref={inputRef}
                 onChange={handleChange}
-                disabled={isSubmitting}
                 isInvalid={!isValid}
+                autoComplete="off"
+                required
+                disabled={isSubmitting}
               />
               <Form.Control.Feedback type="invalid">{errors.name}</Form.Control.Feedback>
             </Form.Group>

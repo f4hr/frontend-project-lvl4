@@ -64,6 +64,8 @@ const LoginForm = () => {
               ref={inputRef}
               onChange={handleChange}
               isInvalid={!!errors.username}
+              autoComplete="username"
+              required
               disabled={isSubmitting}
             />
             <Form.Control.Feedback type="invalid">{errors.username}</Form.Control.Feedback>
@@ -76,6 +78,8 @@ const LoginForm = () => {
               value={values.password}
               onChange={handleChange}
               isInvalid={!!errors.password}
+              autoComplete="current-password"
+              required
               disabled={isSubmitting}
             />
             <Form.Control.Feedback type="invalid">{errors.password}</Form.Control.Feedback>

@@ -9,6 +9,16 @@ import * as Yup from 'yup';
 import { useAuth } from '../../hooks/index.jsx';
 import routes from '../../routes.js';
 
+const FIELDS_ATTRIBUTES = {
+  username: {
+    min: 3,
+    max: 20,
+  },
+  password: {
+    min: 6,
+  },
+};
+
 const SignupForm = () => {
   const { t } = useTranslation();
   const history = useHistory();
@@ -32,11 +42,11 @@ const SignupForm = () => {
 
   const schema = Yup.object({
     username: Yup.string()
-      .min(3, t('form.errors.minmax', { min: 3, max: 20 }))
-      .max(20, t('form.errors.minmax', { min: 3, max: 20 }))
+      .min(FIELDS_ATTRIBUTES.username.min, t('form.errors.minmax', FIELDS_ATTRIBUTES.username))
+      .max(FIELDS_ATTRIBUTES.username.max, t('form.errors.minmax', FIELDS_ATTRIBUTES.username))
       .required(t('form.errors.required')),
     password: Yup.string()
-      .min(6, t('form.errors.min', { min: 6 }))
+      .min(FIELDS_ATTRIBUTES.password.min, t('form.errors.min', FIELDS_ATTRIBUTES.password))
       .required(t('form.errors.required')),
     confirmPassword: Yup.string()
       .oneOf([Yup.ref('password'), null], t('form.errors.passwordMatch'))
@@ -76,6 +86,10 @@ const SignupForm = () => {
               onBlur={handleBlur}
               isInvalid={touched.username && !!errors.username}
               isValid={touched.username && !errors.username}
+              minLength={FIELDS_ATTRIBUTES.username.min}
+              maxLength={FIELDS_ATTRIBUTES.username.max}
+              autoComplete="off"
+              required
               disabled={isSubmitting}
             />
             <Form.Control.Feedback type="invalid">{errors.username}</Form.Control.Feedback>
@@ -90,6 +104,9 @@ const SignupForm = () => {
               onBlur={handleBlur}
               isInvalid={touched.password && !!errors.password}
               isValid={touched.password && !errors.password}
+              minLength={FIELDS_ATTRIBUTES.password.min}
+              autoComplete="new-password"
+              required
               disabled={isSubmitting}
             />
             <Form.Control.Feedback type="invalid">{errors.password}</Form.Control.Feedback>
@@ -104,6 +121,9 @@ const SignupForm = () => {
               onBlur={handleBlur}
               isInvalid={touched.confirmPassword && !!errors.confirmPassword}
               isValid={touched.confirmPassword && !errors.confirmPassword}
+              minLength={FIELDS_ATTRIBUTES.password.min}
+              autoComplete="new-password"
+              required
               disabled={isSubmitting}
             />
             <Form.Control.Feedback type="invalid">{errors.confirmPassword}</Form.Control.Feedback>

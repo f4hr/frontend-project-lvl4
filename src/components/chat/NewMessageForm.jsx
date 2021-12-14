@@ -68,6 +68,8 @@ const NewMessageForm = () => {
               aria-label={t('newMessageForm.label')}
               ref={inputRef}
               onChange={handleChange}
+              autoComplete="off"
+              required
               disabled={isSubmitting}
             />
           </Form.Group>
