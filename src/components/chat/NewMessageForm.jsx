@@ -3,7 +3,7 @@
 import React, { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { Form, Button } from 'react-bootstrap';
+import { Form, Button, Spinner } from 'react-bootstrap';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import filter from 'leo-profanity';
@@ -78,6 +78,18 @@ const NewMessageForm = () => {
             variant="primary"
             disabled={!dirty || isSubmitting}
           >
+            {(isSubmitting)
+              ? (
+                <Spinner
+                  className="mr-2"
+                  as="span"
+                  animation="border"
+                  size="sm"
+                  role="status"
+                  aria-hidden="true"
+                />
+              )
+              : null}
             {t('form.submit')}
           </Button>
         </Form>

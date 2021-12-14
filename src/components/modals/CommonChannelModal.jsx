@@ -3,7 +3,12 @@
 import React, { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { Modal, Form, Button } from 'react-bootstrap';
+import {
+  Modal,
+  Form,
+  Button,
+  Spinner,
+} from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
@@ -99,6 +104,18 @@ const CommonChannelModal = ({
               variant="primary"
               disabled={!isValid || isSubmitting}
             >
+              {(isSubmitting)
+                ? (
+                  <Spinner
+                    className="mr-2"
+                    as="span"
+                    animation="border"
+                    size="sm"
+                    role="status"
+                    aria-hidden="true"
+                  />
+                )
+                : null}
               {t(submitButtonText)}
             </Button>
           </Modal.Footer>

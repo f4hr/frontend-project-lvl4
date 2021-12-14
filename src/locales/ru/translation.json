@@ -1,5 +1,8 @@
 {
   "translation": {
+    "states": {
+      "loading": "Загрузка..."
+    },
     "errors": {
       "auth": "Ошибка авторизации",
       "network": "Ошибка соединения",

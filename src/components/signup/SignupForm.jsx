@@ -3,7 +3,12 @@
 import React, { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
-import { Form, Col, Button } from 'react-bootstrap';
+import {
+  Form,
+  Col,
+  Button,
+  Spinner,
+} from 'react-bootstrap';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { useAuth } from '../../hooks/index.jsx';
@@ -136,6 +141,18 @@ const SignupForm = () => {
               block
               disabled={!dirty || isSubmitting || !isValid}
             >
+              {(isSubmitting)
+                ? (
+                  <Spinner
+                    className="mr-2"
+                    as="span"
+                    animation="border"
+                    size="sm"
+                    role="status"
+                    aria-hidden="true"
+                  />
+                )
+                : null}
               {t('signUpForm.submit')}
             </Button>
           </Col>

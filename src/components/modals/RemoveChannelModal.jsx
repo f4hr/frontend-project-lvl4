@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { Modal, Button } from 'react-bootstrap';
+import { Modal, Button, Spinner } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import { useSocket } from '../../hooks/index.jsx';
 import { channelsSelectors } from '../../slices/channelsSlice';
@@ -43,6 +43,18 @@ const RemoveChannelModal = ({ closeModal, channelId }) => {
           disabled={isSubmitting}
           onClick={handleRemoveChannel}
         >
+          {(isSubmitting)
+            ? (
+              <Spinner
+                className="mr-2"
+                as="span"
+                animation="border"
+                size="sm"
+                role="status"
+                aria-hidden="true"
+              />
+            )
+            : null}
           {t('removeChannel.submit')}
         </Button>
       </Modal.Footer>
