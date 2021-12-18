@@ -1,7 +1,7 @@
 // @ts-check
 
-import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
-import { actions as channelActions } from './channelsSlice.js';
+import { createDraftSafeSelector, createEntityAdapter, createSlice } from '@reduxjs/toolkit';
+import { actions as channelActions, currentChannelSelector } from './channelsSlice.js';
 import { setInitialState } from './appSlice.js';
 
 const messagesAdapter = createEntityAdapter();
@@ -32,6 +32,13 @@ export const messagesSlice = createSlice({
 });
 
 export const messagesSelectors = messagesAdapter.getSelectors((state) => state.messages);
+export const currentChannelMessagesSelector = createDraftSafeSelector(
+  messagesSelectors.selectAll,
+  currentChannelSelector,
+  (messages, currentChannelId) => (
+    messages.filter(({ channelId }) => channelId === currentChannelId)
+  ),
+);
 
 export const { actions } = messagesSlice;
 

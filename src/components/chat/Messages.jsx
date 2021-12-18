@@ -2,13 +2,10 @@
 
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { currentChannelSelector } from '../../slices/channelsSlice.js';
-import { messagesSelectors } from '../../slices/messagesSlice.js';
+import { currentChannelMessagesSelector } from '../../slices/messagesSlice.js';
 
 const Messages = ({ scrollbar }) => {
-  const messages = useSelector(messagesSelectors.selectAll);
-  const currentChannelId = useSelector(currentChannelSelector);
-  const currentChannelMessages = messages.filter(({ channelId }) => channelId === currentChannelId);
+  const currentChannelMessages = useSelector(currentChannelMessagesSelector);
   const messagesCount = currentChannelMessages.length;
 
   useEffect(() => {
