@@ -20,19 +20,34 @@ import Messages from './Messages.jsx';
 import NewMessageForm from './NewMessageForm.jsx';
 import { useAuth } from '../../hooks/index.jsx';
 
+const Preloader = () => {
+  const { t } = useTranslation();
+
+  return (
+    <div className="d-flex justify-content-center align-items-center h-100">
+      <Spinner animation="border" variant="primary" role="status">
+        <span className="sr-only">{t('states.loading')}</span>
+      </Spinner>
+    </div>
+  );
+};
+
 const Chat = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const [state, setState] = useState('idle');
   const { logOut } = useAuth();
   const scrollbarRef = useRef(null);
+  const isMountedRef = useRef(null);
 
   useEffect(() => {
+    isMountedRef.current = true;
+
     (async () => {
       try {
         setState('pending');
         await dispatch(setInitialState()).unwrap();
-        setState('success');
+        if (isMountedRef.current) setState('success');
       } catch (err) {
         setState('failed');
         logOut();
@@ -40,29 +55,19 @@ const Chat = () => {
       }
     })();
 
-    return () => {
-      setState('idle');
-    };
-  }, []);
+    return () => { isMountedRef.current = false; };
+  }, [dispatch, logOut, t]);
 
   const handleNewChannel = () => {
     dispatch(openModal({ type: 'new' }));
   };
-
-  const renderSpinner = () => (
-    <div className="d-flex justify-content-center align-items-center h-100">
-      <Spinner animation="border" variant="primary" role="status">
-        <span className="sr-only">{t('states.loading')}</span>
-      </Spinner>
-    </div>
-  );
 
   return (
     <Container fluid className="h-100 px-0">
       <Row className="h-100 m-0">
         <Col xs lg="2" className="p-3 bg-light">
           {(state === 'pending')
-            ? (renderSpinner())
+            ? <Preloader />
             : (
               <>
                 <div className="d-flex justify-content-between align-items-center mb-2">
@@ -86,7 +91,7 @@ const Chat = () => {
         </Col>
         <Col className="d-flex flex-column h-100 p-3">
           {(state === 'pending')
-            ? (renderSpinner())
+            ? <Preloader />
             : (
               <>
                 <Scrollbars ref={scrollbarRef}>
