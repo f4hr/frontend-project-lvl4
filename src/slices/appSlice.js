@@ -4,13 +4,14 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import constants from '../constants.js';
 import routes from '../routes.js';
+import storage from '../utils/storage.js';
 
 const initialState = {
   lang: constants.LANG,
 };
 
 const getAuthHeader = () => {
-  const userId = JSON.parse(localStorage.getItem('userId'));
+  const userId = storage.getUser();
 
   if (userId && userId.token) {
     return { Authorization: `Bearer ${userId.token}` };

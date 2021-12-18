@@ -15,7 +15,7 @@ const NewMessageForm = () => {
   const { t } = useTranslation();
   const currentChannelId = useSelector(currentChannelSelector);
   const inputRef = useRef();
-  const { userId: username } = useAuth();
+  const { username } = useAuth();
   const { newMessage } = useSocket();
 
   useEffect(() => {

@@ -3,54 +3,58 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import routes from '../routes.js';
+import storage from '../utils/storage.js';
 import AuthContext from '../contexts/AuthContext.jsx';
 
 const AuthProvider = ({ children }) => {
-  const getInitialState = () => localStorage.getItem('userId') !== null;
-  const [loggedIn, setLoggedIn] = useState(getInitialState);
-  const [userId, setUserId] = useState(null);
+  const userData = storage.getUser();
+
+  const [user, setUser] = useState(userData);
+  const [username, setUsername] = useState(userData?.username ?? null);
+  const [loggedIn, setLoggedIn] = useState(Boolean(userData?.token));
 
   const authorize = async (path, data) => {
     try {
       const res = await axios.post(path, data);
 
-      localStorage.setItem('userId', JSON.stringify(res.data));
-      setLoggedIn(true);
+      storage.setUser(res.data);
+      setUser(res.data);
     } catch (err) {
       if (err.isAxiosError && err.response.status === 401) {
-        setLoggedIn(false);
+        setUser(null);
       }
 
       throw err;
     }
   };
 
-  const signUp = async ({ username, password }) => {
-    await authorize(routes.apiSignupPath(), { username, password });
+  const signUp = async (payload) => {
+    await authorize(routes.apiSignupPath(), payload);
   };
 
-  const logIn = async ({ username, password }) => {
-    await authorize(routes.apiLoginPath(), { username, password });
+  const logIn = async (payload) => {
+    await authorize(routes.apiLoginPath(), payload);
   };
 
   const logOut = () => {
-    setLoggedIn(false);
+    setUser(null);
   };
 
   useEffect(() => {
-    if (loggedIn) {
-      const user = JSON.parse(localStorage.getItem('userId'));
-      setUserId(user.username);
+    if (user) {
+      setLoggedIn(true);
+      setUsername(user.username);
     } else {
-      localStorage.removeItem('userId');
-      setUserId(null);
+      setLoggedIn(false);
+      setUsername(null);
+      storage.removeUser();
     }
-  }, [loggedIn]);
+  }, [user]);
 
   return (
     <AuthContext.Provider
       value={{
-        userId,
+        username,
         loggedIn,
         logIn,
         logOut,
