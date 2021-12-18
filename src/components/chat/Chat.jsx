@@ -56,7 +56,7 @@ const Chat = () => {
     })();
 
     return () => { isMountedRef.current = false; };
-  }, [dispatch, logOut, t]);
+  }, []);
 
   const handleNewChannel = () => {
     dispatch(openModal({ type: 'new' }));
