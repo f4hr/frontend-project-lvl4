@@ -14,7 +14,8 @@
     "coverage": "jest --coverage --env=jsdom",
     "prebuild": "rm -rf dist",
     "build": "NODE_ENV=production npx webpack --mode production",
-    "start": "node bin/slack.js"
+    "start": "node bin/slack.js",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
@@ -88,6 +89,7 @@
     "eslint-plugin-react": "^7.23.2",
     "eslint-plugin-react-hooks": "^4.2.0",
     "eslint-plugin-testing-library": "^4.10.1",
+    "husky": "^7.0.4",
     "jest": "^27.0.6",
     "jest-cli": "^27.0.6",
     "mini-css-extract-plugin": "^1.6.0",
