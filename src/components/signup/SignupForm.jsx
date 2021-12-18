@@ -28,22 +28,19 @@ const SignupForm = () => {
   const { t } = useTranslation();
   const history = useHistory();
   const { signUp } = useAuth();
-  const inputRef = useRef();
+  const inputRef = useRef(null);
 
   useEffect(() => {
     inputRef.current.focus();
   }, []);
 
-  const handleSignup = async (values, { setSubmitting, setFieldError }) => {
-    try {
-      setSubmitting(true);
-      await signUp(values);
+  const handleSignup = async (values, { setFieldError }) => signUp(values)
+    .then(() => {
       history.replace({ pathname: routes.homePath() });
-    } catch (err) {
+    })
+    .catch(() => {
       setFieldError('username', t('signUpForm.errors.unique'));
-      setSubmitting(false);
-    }
-  };
+    });
 
   const schema = Yup.object({
     username: Yup.string()

@@ -18,22 +18,19 @@ const LoginForm = () => {
   const { t } = useTranslation();
   const history = useHistory();
   const { logIn } = useAuth();
-  const inputRef = useRef();
+  const inputRef = useRef(null);
 
   useEffect(() => {
     inputRef.current.focus();
   }, []);
 
-  const handleLogin = async (values, { setSubmitting, setFieldError }) => {
-    try {
-      setSubmitting(true);
-      await logIn(values);
+  const handleLogin = async (values, { setFieldError }) => logIn(values)
+    .then(() => {
       history.replace({ pathname: routes.homePath() });
-    } catch (err) {
+    })
+    .catch(() => {
       setFieldError('username', t('logInForm.errors.auth'));
-      setSubmitting(false);
-    }
-  };
+    });
 
   const schema = Yup.object({
     username: Yup.string().required(t('form.errors.required')),

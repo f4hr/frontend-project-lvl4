@@ -14,7 +14,7 @@ import { currentChannelSelector } from '../../slices/channelsSlice.js';
 const NewMessageForm = () => {
   const { t } = useTranslation();
   const currentChannelId = useSelector(currentChannelSelector);
-  const inputRef = useRef();
+  const inputRef = useRef(null);
   const { username } = useAuth();
   const { newMessage } = useSocket();
 
@@ -22,7 +22,7 @@ const NewMessageForm = () => {
     inputRef.current.focus();
   }, [currentChannelId]);
 
-  const handleMessageSend = async (values, { resetForm, setSubmitting }) => {
+  const handleMessageSend = async (values, { resetForm }) => {
     const body = values.message.trim();
     const message = {
       channelId: currentChannelId,
@@ -30,15 +30,13 @@ const NewMessageForm = () => {
       body: filter.clean(body),
     };
 
-    try {
-      setSubmitting(true);
-      await newMessage(message);
-      setSubmitting(false);
-      resetForm();
-    } catch (err) {
-      toast.error(t('messages.errors.send'));
-      setSubmitting(false);
-    }
+    return newMessage(message)
+      .then(() => {
+        resetForm();
+      })
+      .catch(() => {
+        toast.error(t('messages.errors.send'));
+      });
   };
 
   const schema = Yup.object({

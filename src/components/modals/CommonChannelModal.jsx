@@ -22,7 +22,7 @@ const CommonChannelModal = ({
 }) => {
   const { t } = useTranslation();
   const channelNames = useSelector(channelNamesSelector);
-  const inputRef = useRef();
+  const inputRef = useRef(null);
   const {
     modalTitle,
     label,
@@ -35,20 +35,17 @@ const CommonChannelModal = ({
     inputRef.current.select();
   }, []);
 
-  const handleChannelFormSubmit = async (values, { setSubmitting }) => {
+  const handleChannelFormSubmit = async (values) => {
     const body = values.name.trim();
 
-    try {
-      setSubmitting(true);
-      await handleFormSubmit(body);
-      setSubmitting(false);
-      closeModal();
-      toast.success(t(success));
-    } catch {
-      setSubmitting(false);
-      closeModal();
-      toast.error(t(error));
-    }
+    return handleFormSubmit(body)
+      .then(() => {
+        closeModal();
+        toast.success(t(success));
+      })
+      .catch(() => {
+        toast.error(t(error));
+      });
   };
 
   const schema = Yup.object({
