@@ -1,6 +1,6 @@
 // @ts-check
 
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, createDraftSafeSelector } from '@reduxjs/toolkit';
 import axios from 'axios';
 import constants from '../constants.js';
 import routes from '../routes.js';
@@ -53,6 +53,13 @@ export const appSlice = createSlice({
     },
   },
 });
+
+const selectSelf = (state) => state.app;
+
+export const currentLanguageSelector = createDraftSafeSelector(
+  selectSelf,
+  (state) => state.lang,
+);
 
 export const { changeLanguage } = appSlice.actions;
 export const { actions } = appSlice;

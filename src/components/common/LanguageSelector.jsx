@@ -7,20 +7,21 @@ import {
   Dropdown,
   DropdownButton,
 } from 'react-bootstrap';
-import { changeLanguage } from '../../slices/appSlice.js';
+import _ from 'lodash';
+import constants from '../../constants.js';
+import { changeLanguage, currentLanguageSelector } from '../../slices/appSlice.js';
+
+const getCurrentLocaleName = (locales, current) => _.find(locales, ['id', current]).name;
 
 const LanguageSelector = () => {
+  const { LOCALES } = constants;
   const { t, i18n } = useTranslation();
   const dispatch = useDispatch();
-  const { lang } = useSelector((state) => state.app);
-  const locales = {
-    ru: 'Русский',
-    en: 'English',
-  };
+  const currentLang = useSelector(currentLanguageSelector);
 
   useEffect(() => {
-    i18n.changeLanguage(lang);
-  }, [lang]);
+    i18n.changeLanguage(currentLang);
+  }, [currentLang]);
 
   const handleLangSelect = (eventKey) => {
     dispatch(changeLanguage({ lang: eventKey }));
@@ -30,26 +31,21 @@ const LanguageSelector = () => {
     <DropdownButton
       className="mr-2"
       variant="secondary"
-      title={locales[lang]}
+      title={getCurrentLocaleName(LOCALES, currentLang)}
       renderMenuOnMount
     >
       <Dropdown.Header>{t('lang.description')}</Dropdown.Header>
-      <Dropdown.Item
-        as="button"
-        eventKey="ru"
-        onSelect={handleLangSelect}
-        active={lang === 'ru'}
-      >
-        Русский
-      </Dropdown.Item>
-      <Dropdown.Item
-        as="button"
-        eventKey="en"
-        onSelect={handleLangSelect}
-        active={lang === 'en'}
-      >
-        English
-      </Dropdown.Item>
+      {LOCALES.map(({ id, name }) => (
+        <Dropdown.Item
+          key={id}
+          as="button"
+          eventKey={id}
+          onSelect={handleLangSelect}
+          active={currentLang === id}
+        >
+          {name}
+        </Dropdown.Item>
+      ))}
     </DropdownButton>
   );
 };
