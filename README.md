@@ -8,3 +8,15 @@
 ## Example
 
 [Link](https://f4hr-simple-slack.herokuapp.com/)
+
+## Setup
+
+```sh
+make install
+```
+
+## Run
+
+```sh
+make start
+```
