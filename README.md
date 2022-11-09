@@ -7,7 +7,7 @@
 
 ## Example
 
-[Link](https://f4hr-simple-slack.herokuapp.com/)
+[Link](https://f4hr-simple-slack.up.railway.app/)
 
 ## Setup
 
