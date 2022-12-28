@@ -35,3 +35,8 @@ jobs:
         with:
           coverageCommand: npm run coverage
           debug: true
+      - name: Push to dokku
+        uses: dokku/github-action@master
+        with:
+          git_remote_url: 'ssh://dokku@f4hr.xyz:22/simple-slack'
+          ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
